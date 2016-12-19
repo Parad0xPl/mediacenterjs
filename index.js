@@ -105,7 +105,6 @@ app.get("/", function(req, res, next) {
 
     DeviceInfo.storeDeviceInfo(req);
 
-    console.log(config);
     if(config.language === '' || config.location === '' || config.moviepath === undefined){
 
         res.render('setup',{
@@ -170,7 +169,7 @@ app.post('/getScraperData', function(req, res){
 
     if(scraperlink === 'movies'){
 		MovieHandler.load({}, handleCallback(res));
-		console.log(scrap,'res');
+		// console.log(scrap,'res');
     } else if (scraperlink === 'music'){
 		MusicHandler.load({include: [Artist, Track]}, handleCallback(res));
     } else if (scraperlink === 'tv'){

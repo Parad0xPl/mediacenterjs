@@ -24,7 +24,6 @@ var express = require('express')
 , ini = require('ini')
 , http = require('http')
 , DeviceInfo = require('../../lib/utils/device-utils')
-, isThere = require('is-there')
 , config = ini.parse(fs.readFileSync('./configuration/config.ini', 'utf-8'));
 
 

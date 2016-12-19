@@ -25,7 +25,7 @@
 
 var child_process = require('child_process')
     , fs = require("fs-extra")
-    , isThere = require('is-there')
+    
     , logger = require('winston');
 
     var path = require('path');
