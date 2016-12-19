@@ -62,28 +62,28 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
 
         $scope.editItem = function(){
 
-            if($scope.edit.title === '' || $scope.edit.title === null || $scope.edit.title === undefined ){
-                if($scope.current.title  !== undefined || $scope.current.title !== null){
-                    $scope.edit.title = $scope.current.title;
+            if($scope.edit.name === '' || $scope.edit.name === null || $scope.edit.name === undefined ){
+                if($scope.current.name  !== undefined || $scope.current.name !== null){
+                    $scope.edit.name = $scope.current.name;
                 } else {
-                    $scope.edit.title = '';
+                    $scope.edit.name = '';
                 }
             }
 
-            if($scope.edit.banner === '' || $scope.edit.banner === null || $scope.edit.banner === undefined ){
-                if($scope.current.banner  !== undefined || $scope.current.banner !== null){
-                    $scope.edit.banner = $scope.current.banner;
+            if($scope.edit.posterURL === '' || $scope.edit.posterURL === null || $scope.edit.posterURL === undefined ){
+                if($scope.current.posterURL  !== undefined || $scope.current.posterURL !== null){
+                    $scope.edit.posterURL = $scope.current.posterURL;
                 } else {
-                    $scope.edit.banner = '/tv/css/img/nodata.jpg';
+                    $scope.edit.posterURL = '/tv/css/img/nodata.jpg';
                 }
             }
 
             $http({
                 method: "post",
                 data: {
-                    newTitle        : $scope.edit.title,
-                    newBanner       : $scope.edit.banner,
-                    currentTitle    : $scope.current.title
+                    id              : $scope.current.id,
+                    name            : $scope.edit.name,
+                    posterURL       : $scope.edit.posterURL
                 },
                 url: "/tv/edit"
             }).success(function(data, status, headers, config) {
