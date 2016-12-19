@@ -31,7 +31,7 @@ var child_process = require('child_process')
     var path = require('path');
     var appDir = path.dirname(require.main.filename)
 
-    if(isThere.sync(appDir + "/log/") === false){
+    if(fs.existsSync(appDir + "/log/") === false){
         fs.mkdirSync(appDir + "/log/");
         fs.openSync(appDir + "/log/server.log", 'w');
         fs.chmodSync(appDir + "/log/server.log", 0755);
@@ -77,7 +77,7 @@ function cleanUp(output, dir) {
     });
 
     child.on('exit', function() {
-        if(isThere.sync(output) === true){
+        if(fs.existsSync(output) === true){
             fs.unlinkSync(output);
             server.update = false;
             server.start();
@@ -129,23 +129,23 @@ server = {
         }
     },
     "watchFile": function() {
-        var that = this;
-        fs.watchFile('./configuration/config.ini', {interval : 500}, function(curr, prev) {
-            if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
-                logger.info('Restarting because of changed file');
-                // give browser time to load finish page
-                setTimeout(function(){
-                    server.restart();
-                },2000);
-            }
-        });
-        fs.watchFile('./configuration/update.js', {interval : 500}, function(curr, prev) {
-            if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
-                logger.info('Restarting because an update is available' );
-                that.update = true;
-                server.restart();
-            }
-        });
+        // var that = this;
+        // fs.watchFile('./configuration/config.ini', {interval : 500}, function(curr, prev) {
+        //     if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
+        //         logger.info('Restarting because of changed file');
+        //         // give browser time to load finish page
+        //         setTimeout(function(){
+        //             server.restart();
+        //         },2000);
+        //     }
+        // });
+        // fs.watchFile('./configuration/update.js', {interval : 500}, function(curr, prev) {
+        //     if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
+        //         logger.info('Restarting because an update is available' );
+        //         that.update = true;
+        //         server.restart();
+        //     }
+        // });
     }
 }
 

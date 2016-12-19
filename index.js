@@ -17,36 +17,35 @@
 */
 
 
-var express = require('express')
-    , app = express()
-    , fs = require ('fs-extra')
-    , isThere = require('is-there')
-    , util = require('util')
-    , dateFormat = require('dateformat')
-    , lingua = require('lingua')
-    , colors = require('colors')
-    , rimraf = require('rimraf')
-    , mcjsRouting = require('./lib/routing/routing')
-    , remoteControl = require('./lib/utils/remote-control')
-    , versionChecker = require('./lib/utils/version-checker')
-    , scheduler = require('./lib/utils/scheduler')
-    , DeviceInfo = require('./lib/utils/device-utils')
-    , fileHandler = require('./lib/utils/file-utils')
-    , dbSchema = require('./lib/utils/database-schema')
-    , bodyParser = require('body-parser')
-    , static = require('serve-static')
-    , favicon = require('serve-favicon')
-    , errorHandler = require('errorhandler')
-    , http = require('http')
-    , os = require('os')
-    , jade = require('jade')
-    , open = require('open')
-    , configuration_handler = require('./lib/handlers/configuration-handler')
-    , server = http.createServer(app)
-    , io = require('./lib/utils/setup-socket')(server)
-    , methodOverride = require('method-override')
-    , logger = require('./lib/utils/logging')
-    , apps = require("./lib/utils/apps");
+var express = require('express'),
+  fs = require ('fs-extra'),
+  app = express(),
+  util = require('util'),
+  dateFormat = require('dateformat'),
+  lingua = require('lingua'),
+  colors = require('colors'),
+  rimraf = require('rimraf'),
+  mcjsRouting = require('./lib/routing/routing'),
+  remoteControl = require('./lib/utils/remote-control'),
+  versionChecker = require('./lib/utils/version-checker'),
+  scheduler = require('./lib/utils/scheduler'),
+  DeviceInfo = require('./lib/utils/device-utils'),
+  fileHandler = require('./lib/utils/file-utils'),
+  dbSchema = require('./lib/utils/database-schema'),
+  bodyParser = require('body-parser'),
+  static = require('serve-static'),
+  favicon = require('serve-favicon'),
+  errorHandler = require('errorhandler'),
+  http = require('http'),
+  os = require('os'),
+  jade = require('jade'),
+  open = require('open'),
+  configuration_handler = require('./lib/handlers/configuration-handler'),
+  server = http.createServer(app),
+  io = require('./lib/utils/setup-socket')(server),
+  methodOverride = require('method-override'),
+  logger = require('./lib/utils/logging'),
+  apps = require("./lib/utils/apps");
 
 
 var config = configuration_handler.initializeConfiguration();
@@ -59,7 +58,7 @@ if(config.language === ""){
 }
 
 /*Create database*/
-if(isThere.sync('./lib/database/') === false){
+if(!fs.existsSync('./lib/database/')){
     fs.mkdirSync('./lib/database/');
 }
 var env = process.env.NODE_ENV || 'development';
@@ -106,6 +105,7 @@ app.get("/", function(req, res, next) {
 
     DeviceInfo.storeDeviceInfo(req);
 
+    console.log(config);
     if(config.language === '' || config.location === '' || config.moviepath === undefined){
 
         res.render('setup',{
@@ -292,7 +292,7 @@ function unzip(req, res, output, dir){
     var ExtractDir = './install'
     var options = {};
 
-    if(isThere.sync(dir) === false){
+    if(fs.existsSync(dir) === false){
         fs.mkdirSync(dir);
     } else {
         rimraf(dir, function (err) {

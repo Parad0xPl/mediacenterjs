@@ -135,7 +135,7 @@ function loadCustomSettings(callback){
         } else {
             var pluginPath = nodeModules + '/' + name;
             var pluginSettingsJSON = pluginPath + '/settings.json'
-            if(isThere.sync( pluginSettingsJSON)){
+            if(fs.existsSync( pluginSettingsJSON)){
                 var parsedJSON = require(pluginSettingsJSON)
                 plugSettings.push(parsedJSON);
             };
