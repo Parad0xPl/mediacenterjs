@@ -89,7 +89,7 @@ block body
                         .pcc-percents-wrapper
                             span {{serverMessage}}%
                 {{serverStatus}}
-            h2.loading(ng-show="albums.result === 'none'") No data found, please check the music filepath
+            h2.loading(ng-show="albums.length === 0") No data found, please check the music filepath
 
     #player.col-xs-12.col-md-12.col-lg-12(ng-show="player.playlist.length > 0 || player.single", ng-class="className", ng-cloak)
         #progressBar.ui.active.striped.progress(ng-click="player.seek()")

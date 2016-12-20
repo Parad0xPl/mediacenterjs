@@ -29,7 +29,7 @@ block body
                     input#search.pull-right(ng-model="query.$", type="text", placeholder="Search", ng-show="movies")
                     #view-select(ng-hide="!movies")
                         label.view-select(for="showhidden", ng-init="query.hidden='false'", ng-click="query.hidden = query.hidden == 'false' ? '' : 'false'")
-                            | {{query.hidden ? "Show" : "Hide"}} Hidden                    
+                            | {{query.hidden ? "Show" : "Hide"}} Hidden
     .container-fluid
         .row(mcjs-library)
             mcjs-movie(movie="movie", ng-repeat="movie in movies | filter:query  | orderBy: 'title' ", ng-cloak)
@@ -37,7 +37,7 @@ block body
         h2.loading(ng-show="!movies") #{lingua.loading}
             mcjs-progress(percent="serverMessage")
             {{serverStatus}}
-        h2.loading(ng-show="movies.result === 'none'") No data found, please check the movie filepath
+        h2.loading(ng-show="movies.length === 0") No data found, please check the movie filepath
 
     video#player.video-js.vjs-default-skin(width="100%", height="100%", ng-show="mediaPlayer.playing", controls, preload="metadata")
 
@@ -69,4 +69,3 @@ block body
             button.btn(ng-click="updateItem()") Fetch Metadata
             button.btn.pull-right(ng-click="$dismiss()") Cancel
             input.btn.pull-right(type="submit",value="Submit", ng-click="editItem()",required)
-

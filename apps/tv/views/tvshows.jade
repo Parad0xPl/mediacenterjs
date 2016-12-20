@@ -68,7 +68,7 @@ block body
                     .pcc-percents-wrapper
                         span {{serverMessage}}%
             {{serverStatus}}
-        h2.loading(ng-show="tvshows.result === 'none'") #{lingua.tvshows_no_data_found}
+        h2.loading(ng-show="tvshows.length === 0") #{lingua.tvshows_no_data_found}
 
     video#player.video-js.vjs-default-skin(width="100%", height="100%", ng-show="playing", controls, preload="metadata")
 
