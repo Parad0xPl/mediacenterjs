@@ -1,6 +1,6 @@
 /*
 	MediaCenterJS - A NodeJS based mediacenter solution
-	
+
     Copyright (C) 2014 - Jan Smolders
 
     This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 	var ns = 'mcjs'
     ,methods = {
 		/**
-			This public function allows you to use a modal dialog 
+			This public function allows you to use a modal dialog
 			with a ajax call with a generic conformation message
 			@param url 			AJAX url	(ie '/setup')
 			@param data			AJAX data	(ie {module : moduleLink})
@@ -34,7 +34,7 @@
 				_modalDialog(o, url, type,data);
 			});
 		}
-		
+
     }
 
 	function _init(options) {
@@ -43,9 +43,9 @@
 		return this.each(function() {
 			var $that = $(this)
 				,o = $.extend(true, {}, opts, $that.data(opts.datasetKey));
-				
-			// add data to the defaults (e.g. $node caches etc)	
-			o = $.extend(true, o, { 
+
+			// add data to the defaults (e.g. $node caches etc)
+			o = $.extend(true, o, {
 				$that: $that
 				, viewportWidth		    : $(window).width()
 				, viewportHeight	    : $(window).height()
@@ -54,42 +54,42 @@
                 , RemoteIdle            : true
                 , screenSaverTimeout    : 900000
 			});
-			
+
 			// use extend(), so no o is used by value, not by reference
 			$.data(this, ns, $.extend(true, {}, o));
-			
+
 			window.scrollTo(0,0);
-			
+
 			_initpages(o, $(this));			// Init core functionality
 			_resizeviewport(o, $(this)); 	// Strech bg to fullscreen
 			_screensaver(o, $(this));		// Init screensaver
 
-            
-            //TODO: place these in settings js 
+
+            //TODO: place these in settings js
             //Is this actually used though?
 			$('.remove').click(function(e){
 				e.preventDefault();
 				var moduleLink = $(this).find('a').attr('href')
 				, data = {module : moduleLink}
 				, url = '/removeModule'
-				, type = 'post';				
+				, type = 'post';
 				_modalDialog(o, url, type,data);
 			});
 		});
 	}
-	
+
 	/**** Start of custom functions ***/
-	
+
 	function _initpages(o, $that){
-		
+
 		// Setup frontend translations
 		$.ajax({
-			url: '/configuration/', 
+			url: '/configuration/',
 			type: 'get'
 		}).done(function(data){
 			$.i18n.properties({
-				name: 'translation', 
-				path:'/translations/frontend/', 
+				name: 'translation',
+				path:'/translations/frontend/',
 				mode:'map',
 				language: data.language,
 				extension: 'js',
@@ -100,14 +100,14 @@
 				}
 			})
 		});
-	
+
 		// Hide all UI boxes
 		$(".ui-widget").hide();
-		
+
 		// Add fade effect
 		$(".backdropimg").addClass("fadein");
 	}
-	
+
 	function _modalDialog(o, url, type, data){
 		if (typeof jQuery.ui !== 'undefined'){
 			var dialog = null;
@@ -119,14 +119,14 @@
 					click: function () {
 						dialog.dialog('destroy').remove();
 						$.ajax({
-							url: url, 
+							url: url,
 							type: type,
 							data: data
 						}).done(function(data){
 							if(data == 'done'){
 								$(".ui-widget").find('.message').html(o.succesMessage);
 								$(".ui-widget").show();
-							} 
+							}
 						});
 					},
 
@@ -144,8 +144,8 @@
 			}
 		}
 	}
-	
-	
+
+
 	function _resizeviewport(o, $that){
 		var $img = $(".fullscreen");
 		$(window).resize(function() {
@@ -156,18 +156,18 @@
 			ratio     = ($img.height() / $img.width()),
 			imgHeight = Math.floor(viewport.width * ratio);
 			$img.css({
-				width     : o.viewportWidth,
-				height    : imgHeight,
+				width     : "auto",
+				height    : "auto",
 				marginTop : (imgHeight > o.viewportheight) ? Math.floor((imgHeight - o.viewportheight) / 2 * -1) : 0
 			});
 		});
 	}
 
 	/************ Screensaver ***************/
-	
+
 	function _screensaver(o, $that){
 		$.ajax({
-			url: '/configuration/', 
+			url: '/configuration/',
 			type: 'get'
 		}).done(function(data){
 
@@ -269,7 +269,7 @@
     }
 
 	/**** End of custom functions ***/
-	
+
 	$.fn.mcjs = function( method ) {
 		if ( methods[method] ) {
 			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
@@ -279,7 +279,7 @@
 			$.error( 'Method ' +  method + ' does not exist on jQuery.fn.mcjs' );
 		};
 	};
-	
+
 	/* default values for this plugin */
 	$.fn.mcjs.defaults = {
 		datasetKey: 'mcjs', //always lowercase
