@@ -501,7 +501,7 @@ var isoLangs = {
     },
     "pl":{
         "name":"Polish",
-        "nativeName":"polski"
+        "nativeName":"Polski"
     },
     "ps":{
         "name":"Pashto, Pushto",
