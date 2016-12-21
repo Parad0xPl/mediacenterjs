@@ -31,7 +31,7 @@ block additional_scripts
 
 block body
     header(ng-init="playlist.Visible = true", ng-class="{side: player.playlist.length > 0 && playlist.Visible}")
-        h1.pull-left#show-playlist(ng-hide="playlist.Visible")
+        h1.pull-left#show-playlist(ng-hide="playlist.Visible || player.playlist.length <= 0")
             i.right.double.angle.icon.pull-left(ng-click="playlist.Visible = true")
         .container
             .row
