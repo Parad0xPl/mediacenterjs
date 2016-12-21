@@ -21,7 +21,7 @@ var tvApp = angular.module('tvApp', ['ui.bootstrap']);
 
 tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
     $scope.player = player;
-    $scope.focused = 0;
+    $scope.focused = null;
     $scope.serverMessage = 0;
     $scope.serverStatus= '';
 
