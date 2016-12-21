@@ -66,62 +66,62 @@ exports.getAvailablePlugins = function(req, res){
     logger.info('Looking for available plugins...');
 
     var installedPlugins = getInstalledPlugins();
-
-    var npmSearch = function(search, callback){
-        npm.load([], function (err, npm) {
-            if (err) {
-                callback(err);
-            } else {
-                  npm.commands.search(search, function(err, res){
-                    if (err) {
-                        logger.error('NPM Search Error ' + err);
-                        callback(err);
-                    } else {
-						logger.info('Found something, continuing...');
-                        callback(null, res);
-                    }
-                });
-            }
-        });
-    }
-
-    npmSearch(["mediacenterjs-"], function(err, pluginList){
-        if (!pluginList || err) {
-            logger.error('Error: Searching for plugins: ' + err);
-            res.json({
-                error: 1,
-                message: 'Error: Unable to get a list of the available plugins.'
-            });
-        } else {
-            var plugins = Object.keys(pluginList)
-            .filter(function (pluginName) {
-                return blackList.indexOf(pluginName) === -1;
-            })
-            .map(function(pluginName) {
-                var pluginObj = pluginList[pluginName];
-                var compareInfo = isPluginCurrentlyInstalled(installedPlugins, pluginObj.name, pluginObj.version);
-                var d = new Date(pluginObj.time);
-
-				if(pluginObj.author === undefined || pluginObj.author === null){
-					pluginObj.author = 'Unknown';
-				}
-
-				logger.info('Filtering results...');
-
-                return {
-                    name: pluginObj.name.replace(pluginPrefix, ''), //Remove the Mediacenterjs-
-                    desc: pluginObj.description,
-                    author: pluginObj.author.replace('=',''),
-                    date: d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear(),
-                    version: pluginObj.version,
-                    keywords: pluginObj.keywords,
-                    isInstalled: compareInfo.isInstalled,
-                    isUpgradable: compareInfo.isUpgradable
-                };
-            });
-            res.json(plugins);
-        }
-    });
+    res.send(Object.keys(installedPlugins));
+    // var npmSearch = function(search, callback){
+    //     npm.load([], function (err, npm) {
+    //         if (err) {
+    //             callback(err);
+    //         } else {
+    //               npm.commands.search(search, function(err, res){
+    //                 if (err) {
+    //                     logger.error('NPM Search Error ' + err);
+    //                     callback(err);
+    //                 } else {
+		// 				logger.info('Found something, continuing...');
+    //                     callback(null, res);
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+    //
+    // npmSearch(["mediacenterjs-"], function(err, pluginList){
+    //     if (!pluginList || err) {
+    //         logger.error('Error: Searching for plugins: ' + err);
+    //         res.json({
+    //             error: 1,
+    //             message: 'Error: Unable to get a list of the available plugins.'
+    //         });
+    //     } else {
+    //         var plugins = Object.keys(pluginList)
+    //         .filter(function (pluginName) {
+    //             return blackList.indexOf(pluginName) === -1;
+    //         })
+    //         .map(function(pluginName) {
+    //             var pluginObj = pluginList[pluginName];
+    //             var compareInfo = isPluginCurrentlyInstalled(installedPlugins, pluginObj.name, pluginObj.version);
+    //             var d = new Date(pluginObj.time);
+    //
+		// 		if(pluginObj.author === undefined || pluginObj.author === null){
+		// 			pluginObj.author = 'Unknown';
+		// 		}
+    //
+		// 		logger.info('Filtering results...');
+    //
+    //             return {
+    //                 name: pluginObj.name.replace(pluginPrefix, ''), //Remove the Mediacenterjs-
+    //                 desc: pluginObj.description,
+    //                 author: pluginObj.author.replace('=',''),
+    //                 date: d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear(),
+    //                 version: pluginObj.version,
+    //                 keywords: pluginObj.keywords,
+    //                 isInstalled: compareInfo.isInstalled,
+    //                 isUpgradable: compareInfo.isUpgradable
+    //             };
+    //         });
+    //         res.json(plugins);
+    //     }
+    // });
 
     var isPluginCurrentlyInstalled = function(array, name, version){
         var info = {

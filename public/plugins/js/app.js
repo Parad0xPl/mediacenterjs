@@ -24,6 +24,9 @@ pluginsApp.controller('pluginsCtrl', function ($scope, $http, $modal, $timeout, 
     $http.get('/plugins/loadItems')
     .success(function(data) {
         $scope.plugins = data;
+        if(data.length == 0){
+          $scope.message = "No plugins installed";
+        }
         $scope.upgrades = $scope.plugins.filter(
             function (plugin) {
                 return plugin.isUpgradable;
@@ -119,5 +122,3 @@ pluginsApp.controller('pluginsCtrl', function ($scope, $http, $modal, $timeout, 
         });
     }
 });
-
-
