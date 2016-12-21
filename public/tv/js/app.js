@@ -38,6 +38,10 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
         $scope.focused = $scope.tvshows.indexOf(tvshow);
     }
 
+    $scope.hideSelected = function(){
+        $scope.focused = null;
+    }
+
     $scope.open = function (tvshow) {
         var modalInstance = $modal.open({
             templateUrl: 'editModal.html',
