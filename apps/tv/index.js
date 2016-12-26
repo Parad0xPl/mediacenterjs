@@ -19,11 +19,11 @@
 exports.engine = 'jade';
 
 /* Modules */
-var express = require('express')
-, app = express()
-, config = require('../../lib/handlers/configuration-handler').getConfiguration()
-, deviceInfo = require('../../lib/utils/device-utils')
-, MediaHandler = require('../../lib/media-handler');
+var express = require('express'),
+    app = express(),
+    config = require('../../lib/handlers/configuration-handler').getConfiguration(),
+    deviceInfo = require('../../lib/utils/device-utils'),
+    MediaHandler = require('../../lib/media-handler');
 
 var TvShowHandler = new MediaHandler('Show', 'Episode', require('./metadata-processor'), 'tvpath');
 
