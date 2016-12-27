@@ -27,7 +27,19 @@ function handleCallback(res) {
       logger.error(err);
       return res.status(500).send();
     }
-
+    // var transformed = [];
+    // console.log(results);
+    // results.forEach(function (element) {
+    //   element = element.dataValues;
+    //   var obj = {}, x;
+    //   for(x in element){
+    //     if(typeof element[x] !== undefined){
+    //       obj[x.toLocaleLowerCase()] = element[x];
+    //     }
+    //   }
+    //   transformed.push(obj);
+    // });
+    // results = transformed;
     if (results) {
       return res.json(results);
     }

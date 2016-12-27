@@ -52,7 +52,7 @@ routing.get['/'] = function(req, res){
 routing.get['/load/'] = function(req, res){
   MovieHandler.load({}, handleCallback(res));
 };
-routing.get['/play/:id/:action?'] = function (req, res){
+routing.get['/:id/play/:action?'] = function (req, res){
   var infoRequest = req.params.id,
       platform = req.params.action;
   MovieHandler.playFile(res, platform, infoRequest);
@@ -60,6 +60,9 @@ routing.get['/play/:id/:action?'] = function (req, res){
 routing.get['/stop/'] = function (req, res){
   MovieHandler.stopTranscoding(handleCallback(res));
 };
+routing.get['/views/movie'] = function (req, res) {
+  res.render("movie.jade");
+}
 
 routing.post = {};
 routing.post['/progress/'] = function (req, res) {

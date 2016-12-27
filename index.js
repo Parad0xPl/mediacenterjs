@@ -187,7 +187,7 @@ app.post('/getScraperData', function(req, res){
     } else if (scraperlink === 'tv'){
 		TvShowHandler.load({include: [Episode]}, handleCallback(res));
     }  else if(scraperlink === 'all'){
-		MovieHandler.load({}, handleCallback(res));
+		  MovieHandler.load({}, handleCallback(res));
         setTimeout(function(){
 			MusicHandler.load({include: [Artist, Track]}, handleCallback(res));
         },10000);
