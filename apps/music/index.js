@@ -17,11 +17,11 @@
 */
 
 /* Modules */
-var express = require('express')
-, app = express()
-, config = require('../../lib/handlers/configuration-handler').getConfiguration()
-, deviceInfo = require('../../lib/utils/device-utils')
-, MediaHandler = require('../../lib/media-handler');
+var express = require('express'),
+ app = express(),
+ config = require('../../lib/handlers/configuration-handler').getConfiguration(),
+ deviceInfo = require('../../lib/utils/device-utils'),
+ MediaHandler = require('../../lib/media-handler');
 
 var MusicHandler = new MediaHandler('Album', 'Track', require('./metadata-processor'), 'musicpath');
 

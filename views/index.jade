@@ -33,7 +33,7 @@ block body
                 br
                 Please wait for the installation to finish...
             ul#tiles(mcjs-library, ng-hide="updating")
-                li.tile.mcjs-rc-controllable.col-md-2.col-xs-1(mcjs-library-item, class="{{item.appName}}", ng-repeat="item in apps", style="{{item.tileCSS}}")
+                li.tile.mcjs-rc-controllable.col-md-2.col-xs-1(mcjs-library-item, class="{{item.appLink}}", ng-repeat="item in apps", style="{{item.tileCSS}}")
                     a(href="{{item.appLink}}", ng-click="openApp($event)").mcjs-rc-clickable
                         img(ng-src="{{item.tileLink}}")
                         span {{item.appName}}

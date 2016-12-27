@@ -98,8 +98,11 @@ app.all('*', function(req, res, next) {
 
 // mcjsRouting.loadRoutes(app,{ verbose: !module.parent });
 moduleLoader.loads(app);
+// app.get("/apps", function(req, res) {
+//     res.json(apps.getApps());
+// });
 app.get("/apps", function(req, res) {
-    res.json(apps.getApps());
+    res.json(moduleLoader.getApps());
 });
 
 app.get("/", function(req, res, next) { // jshint ignore:line

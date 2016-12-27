@@ -702,7 +702,7 @@ and (-webkit-min-device-pixel-ratio: 3.0) {
     .tile span {
         text-transform: capitalize;
     }
-    .tile.movies {
+    /*.tile.movies {
         width: 30%;
         background: #32afc5;
     }
@@ -731,7 +731,7 @@ and (-webkit-min-device-pixel-ratio: 3.0) {
     .tile.remote {
         background: #f86c3a;
         width:15%;
-    }
+    }*/
 
     .tile.remote img{
         width: 50%;
