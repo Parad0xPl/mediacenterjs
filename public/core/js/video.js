@@ -35,7 +35,7 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
     var actualDuration  = data.duration;
     player.ready(function() {
 
-        setTimeout(function(){
+        // setTimeout(function(){
             player.src({
                 type    : "video/mp4",
                 src     : videoUrl
@@ -54,7 +54,7 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
 
             _setDuration(player, data);
             _pageVisibility(player);
-        },timeout);
+        // },timeout);
 
     });
 
@@ -152,7 +152,3 @@ function postAjaxCall(url, params){
     xmlhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     xmlhttp.send(JSON.stringify(params));
 }
-
-
-
-

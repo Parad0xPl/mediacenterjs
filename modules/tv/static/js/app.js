@@ -221,7 +221,7 @@ function playEpisode(episode, $http, scope){
         var fileName                =  data.fileName
             , outputFile            =   fileName.replace(/ /g, "-")
             , extentionlessFile     =   outputFile.replace(/\.[^/.]+$/, "")
-            , videoUrl              =   result+data.outputPath
+            , videoUrl              =   data.outputPath
             , subtitleUrl           =   "/data/tv/"+extentionlessFile+".srt"
             , playerID              =   'player'
             , homeURL               =   '/tv/'
