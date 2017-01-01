@@ -19,8 +19,10 @@
 	"trailing": true,
 	"maxparams": 10,
 	"maxdepth": 3,
+	"undef": true,
 	"maxstatements": 50,
-	"maxcomplexity": 5,
+	"maxcomplexity": 6,
+	"browser": true,
 	"smarttabs": true,
 	"esversion": 6,
 
@@ -28,6 +30,7 @@
 	"node": true,
 
 	"globals": {
+		"Device": true,
 		"process": true,
 		"setTimeout": true,
 		"require": true,
