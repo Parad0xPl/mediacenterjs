@@ -45,12 +45,12 @@ var express = require('express'),
   // io = require('./lib/utils/setup-socket')(server),
   methodOverride = require('method-override'),
   logger = require('./lib/utils/logging'),
-  apps = require("./lib/utils/apps"),
+  // apps = require("./lib/utils/apps"),
   moduleLoader = require("./lib/module-loader.js");
 
 
 var config = configuration_handler.initializeConfiguration();
-var ruleSchedule = null;
+// var ruleSchedule = null;
 var language = null;
 if(config.language === ""){
     language = 'en';
@@ -183,16 +183,16 @@ app.post('/getScraperData', function(req, res){
 		MovieHandler.load({}, handleCallback(res));
 		// console.log(scrap,'res');
     } else if (scraperlink === 'music'){
-		MusicHandler.load({include: [Artist, Track]}, handleCallback(res));
-    } else if (scraperlink === 'tv'){
-		TvShowHandler.load({include: [Episode]}, handleCallback(res));
+		MusicHandler.load({include: [Artist, Track]}, handleCallback(res)); // jshint ignore:line
+  } else if (scraperlink === 'tv'){
+		TvShowHandler.load({include: [Episode]}, handleCallback(res)); // jshint ignore:line
     }  else if(scraperlink === 'all'){
 		  MovieHandler.load({}, handleCallback(res));
         setTimeout(function(){
-			MusicHandler.load({include: [Artist, Track]}, handleCallback(res));
+			MusicHandler.load({include: [Artist, Track]}, handleCallback(res)); // jshint ignore:line
         },10000);
         setTimeout(function(){
-			TvShowHandler.load({include: [Episode]}, handleCallback(res));
+			TvShowHandler.load({include: [Episode]}, handleCallback(res)); // jshint ignore:line
         },20000);
     } else {
         res.status(404).send();
@@ -225,7 +225,7 @@ app.get('/doUpdate', function(req, res){
     logger.info('First, download the latest version From Github.');
     var src = 'https://codeload.github.com/jansmolders86/mediacenterjs/zip/master';
     var output = './master.zip';
-    var dir = './install'
+    var dir = './install';
     var options = {};
 
     fileHandler.downloadFile (src, output, options, function(output){
@@ -289,10 +289,10 @@ if (config.port === "" || config.port === undefined ){
 
 /** Private functions **/
 
-function unzip(req, res, output, dir){
+function unzip(req, res, output, dir){ // jshint ignore:line
     var src = 'https://codeload.github.com/jansmolders86/mediacenterjs/zip/master';
     var outputFile = './master.zip';
-    var ExtractDir = './install'
+    var ExtractDir = './install';
     var options = {};
 
     if(fs.existsSync(dir) === false){
@@ -323,18 +323,21 @@ function unzip(req, res, output, dir){
     },1000);
 }
 
-function getIPAddresses() {
-    var ipAddresses = []
-    , interfaces = require('os').networkInterfaces();
+function getIPAddresses() { // jshint ignore:line
+    var ipAddresses = [],
+    interfaces = require('os').networkInterfaces();
 
-    for (var devName in interfaces) {
-        var iface = interfaces[devName];
-        for (var i = 0; i < iface.length; i++) {
-            var alias = iface[i];
-            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-                ipAddresses.push(alias.address);
-            }
+    for(var devName in interfaces) {
+      if(!interfaces.hasOwnProperty(devName)){
+        continue;
+      }
+      var iface = interfaces[devName];
+      for (var i = 0; i < iface.length; i++) {
+        var alias = iface[i];
+        if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+          ipAddresses.push(alias.address);
         }
+      }
     }
 
     return ipAddresses;
