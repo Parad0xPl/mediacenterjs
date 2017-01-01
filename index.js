@@ -175,9 +175,9 @@ app.post('/getScraperData', function(req, res){
     var incommingLink = req.body,
         scraperlink = incommingLink.scraperlink,
         MediaHandler = require('./lib/media-handler');
-	var MovieHandler = new MediaHandler('Movie', 'Movie', require('./apps/movies/metadata-processor'), 'moviepath');
-	var MusicHandler = new MediaHandler('Album', 'Track', require('./apps/music/metadata-processor'), 'musicpath');
-	var TvShowHandler = new MediaHandler('Show', 'Episode', require('./apps/tv/metadata-processor'), 'tvpath');
+  	var MovieHandler = new MediaHandler('Movie', 'Movie', require('./modules/movies/metadata-processor'), 'moviepath');
+  	var MusicHandler = new MediaHandler('Album', 'Track', require('./modules/music/metadata-processor'), 'musicpath');
+  	var TvShowHandler = new MediaHandler('Show', 'Episode', require('./modules/tv/metadata-processor'), 'tvpath');
 
     if(scraperlink === 'movies'){
 		MovieHandler.load({}, handleCallback(res));
