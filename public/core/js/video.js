@@ -53,7 +53,7 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
             player.play();
 
             _setDuration(player, data);
-            _pageVisibility(player);
+            // _pageVisibility(player);
         // },timeout);
 
     });
