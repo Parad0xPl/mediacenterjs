@@ -29,8 +29,22 @@
     @param timeout      Timeout before starting playback
 
  **/
+
+ function _setDuration(player, data){
+     var videoDuration = player.duration(data.duration); // jshint ignore:line
+     player.bufferedPercent(0);
+ }
+
+ function postAjaxCall(url, params){
+     var xmlhttp;
+     xmlhttp = new XMLHttpRequest();
+     xmlhttp.open("POST", url, true);
+     xmlhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+     xmlhttp.send(JSON.stringify(params));
+ }
+
 var globalplayer = null;
-function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, homeURL, timeout, type, scope){
+function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, homeURL, timeout, type, scope){ // jshint ignore:line
     var player          = videojs(playerID);
     globalplayer = player;
     var actualDuration  = data.duration;
@@ -44,8 +58,8 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
 
             if(data.subtitle === true){
                 var track   = document.createElement("track");
-                track.src   = subtitleUrl
-                track.label = 'Subtitle'
+                track.src   = subtitleUrl;
+                track.label = 'Subtitle';
                 document.getElementById(playerID).appendChild(track);
             }
 
@@ -56,10 +70,20 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
               data.progression = 0;
             }
 
+            var closeButton = player.addChild("closeButton");
+            console.log(closeButton);
+            closeButton.el_.onclick = function () {
+              player.pause();
+              scope.playing = false;
+              scope.$apply();
+              player.currentTime(0);
+
+            };
             var setProgression  = parseFloat(data.progression);
             console.log(data.duration - 3*60, data.progression, data.duration - 3*60 > data.progression);
 
             player.currentTime(setProgression);
+            player.volume(0.4);
             player.play();
 
             _setDuration(player, data);
@@ -73,41 +97,41 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
         console.log('Error', e);
     });
 
-    player.on('timeupdate', function(e){
+    player.on('timeupdate', function(){
         _setDuration(player, data);
     });
 
-    player.on('progress', function(e){
+    player.on('progress', function(){
         _setDuration(player, data);
     });
 
-    player.on('pause', function(e){
+    player.on('pause', function(){
         currentTime = player.currentTime();
 
         if(mediaID !== undefined && currentTime !== undefined ){
            var progressionData = {
                 id         : mediaID,
                 'progression'   : currentTime
-            }
+            };
             postAjaxCall('/'+type+'/progress', progressionData);
         }
 
     });
 
-    player.on('loadeddata', function(e){
+    player.on('loadeddata', function(){
         _setDuration(player, data);
         if(currentTime > 0){
             player.currentTime(currentTime);
         }
     });
 
-    player.on('loadedmetadata', function(e){
+    player.on('loadedmetadata', function(){
         if(currentTime > 0){
             player.currentTime(currentTime);
         }
     });
 
-    player.on('ended', function(e){
+    player.on('ended', function(){
         currentTime = player.currentTime();
         if( currentTime < actualDuration){
             player.load();
@@ -120,48 +144,4 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
             player.currentTime(0);
         }
     });
-}
-
-function _setDuration(player, data){
-    var videoDuration = player.duration(data.duration);
-    player.bufferedPercent(0);
-}
-
-function _pageVisibility(player){
-    var hidden, visibilityChange;
-    if (typeof document.hidden !== "undefined") {
-        hidden              = "hidden";
-        visibilityChange    = "visibilitychange";
-    } else if (typeof document.mozHidden !== "undefined") {
-        hidden              = "mozHidden";
-        visibilityChange    = "mozvisibilitychange";
-    } else if (typeof document.msHidden !== "undefined") {
-        hidden              = "msHidden";
-        visibilityChange    = "msvisibilitychange";
-    } else if (typeof document.webkitHidden !== "undefined") {
-        hidden              = "webkitHidden";
-        visibilityChange    = "webkitvisibilitychange";
-    }
-
-    function handleVisibilityChange(event) {
-        if (document[hidden]) {
-            player.pause();
-        } else if (sessionStorage.isPaused !== "true") {
-            player.play();
-        }
-    }
-
-    if (typeof document.addEventListener === "undefined" || typeof hidden === "undefined") {
-        console.log("The Page Visibility feature requires a browser such as Google Chrome that supports the Page Visibility API.");
-    } else {
-        document.addEventListener(visibilityChange, handleVisibilityChange, false);
-    }
-}
-
-function postAjaxCall(url, params){
-    var xmlhttp;
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", url, true);
-    xmlhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    xmlhttp.send(JSON.stringify(params));
 }
