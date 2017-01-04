@@ -31,6 +31,9 @@
 
 	"globals": {
 		"Device": true,
+		"document": true,
+		"videojs": true,
+		"XMLHttpRequest": true,
 		"process": true,
 		"setTimeout": true,
 		"require": true,

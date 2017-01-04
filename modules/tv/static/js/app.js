@@ -186,7 +186,7 @@ tvApp.factory('player', function( $rootScope) {
 
         playlist.add = function(tvshow) {
             if (playlist.length > 0){
-                playlist.splice(0, 1);
+                playlist.splice(0, playlist.length);
             }
             if (playlist.indexOf(tvshow) != -1) return;
             playlist.push(tvshow);
@@ -227,7 +227,7 @@ function playEpisode(episode, $http, scope){
             , homeURL               =   '/tv/'
             , type                  =   'tv';
 
-        videoJSHandler(playerID, data, episode.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type);
+        videoJSHandler(playerID, data, episode.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type, scope);
 
     }) .error(function (msg, code) {
         sweetAlert({title : "",

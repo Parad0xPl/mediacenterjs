@@ -16,9 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-body.playing > div{display:none;}
+/*body.playing > div{display:none;}*/
 body.playing > #player{display:block;}
-
+#player{display:none;}
 /* Default override */
 body,html{ overflow-y:auto; overflow-x:hidden;}
 #header{height:60px; z-index:3; position:fixed; top:0; }

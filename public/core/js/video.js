@@ -29,12 +29,13 @@
     @param timeout      Timeout before starting playback
 
  **/
-
-function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, homeURL, timeout, type){
+var globalplayer = null;
+function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, homeURL, timeout, type, scope){
     var player          = videojs(playerID);
+    globalplayer = player;
     var actualDuration  = data.duration;
     player.ready(function() {
-
+      console.log("Player readyplayer");
         // setTimeout(function(){
             player.src({
                 type    : "video/mp4",
@@ -48,7 +49,16 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
                 document.getElementById(playerID).appendChild(track);
             }
 
+            if(data.duration - 5*60 > data.progression){
+              console.log("progress");
+            }else{
+              console.log("Reset");
+              data.progression = 0;
+            }
+
             var setProgression  = parseFloat(data.progression);
+            console.log(data.duration - 3*60, data.progression, data.duration - 3*60 > data.progression);
+
             player.currentTime(setProgression);
             player.play();
 
@@ -74,7 +84,7 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
     player.on('pause', function(e){
         currentTime = player.currentTime();
 
-        if(title !== undefined && currentTime !== undefined ){
+        if(mediaID !== undefined && currentTime !== undefined ){
            var progressionData = {
                 id         : mediaID,
                 'progression'   : currentTime
@@ -98,13 +108,16 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
     });
 
     player.on('ended', function(e){
-        currentTime = this.currentTime();
+        currentTime = player.currentTime();
         if( currentTime < actualDuration){
             player.load();
             player.play();
         } else {
-            player.dispose();
-            window.location.replace(homeURL);
+            // player.dispose();
+            // window.location.replace(homeURL);
+            scope.playing = false;
+            scope.$apply();
+            player.currentTime(0);
         }
     });
 }
