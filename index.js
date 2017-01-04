@@ -267,7 +267,7 @@ app.post('/submitRemote', function(req, res){
 //Scheduler
 scheduler.schedule();
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3010);
 
 app.use(function(req, res) {
     res.status(404).render('404',{ selectedTheme: config.theme});
