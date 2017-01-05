@@ -43,11 +43,21 @@
      xmlhttp.send(JSON.stringify(params));
  }
 
-var globalplayer = null;
+var globalplayer = null, closeButton = null;
 function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, homeURL, timeout, type, scope){ // jshint ignore:line
     var player          = videojs(playerID);
     globalplayer = player;
     var actualDuration  = data.duration;
+    if(!closeButton){
+      var closeButton = player.addChild("closeButton");
+      console.log(closeButton);
+      closeButton.el_.onclick = function () {
+        player.pause();
+        scope.playing = false;
+        scope.$apply();
+        player.currentTime(0);
+      };
+    }
     player.ready(function() {
       console.log("Player readyplayer");
         // setTimeout(function(){
@@ -70,15 +80,7 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
               data.progression = 0;
             }
 
-            var closeButton = player.addChild("closeButton");
-            console.log(closeButton);
-            closeButton.el_.onclick = function () {
-              player.pause();
-              scope.playing = false;
-              scope.$apply();
-              player.currentTime(0);
 
-            };
             var setProgression  = parseFloat(data.progression);
             console.log(data.duration - 3*60, data.progression, data.duration - 3*60 > data.progression);
 
