@@ -12,13 +12,14 @@ exports.valid_filetypes = /(avi|mkv|mpeg|mov|mp4|m4v|wmv)$/gi;
 exports.processFile = function (fileObject, callback) {
     var originalTitle           = path.basename(fileObject.file)
     , episodeInfo               = tv_title_cleaner.cleanupTitle(originalTitle)
-    , episodeReturnedTitle      = episodeInfo.title
-    , episodeStripped           = episodeReturnedTitle.replace(this.valid_filetypes, '')
-    , episodeTitle              = episodeStripped.trimRight();
+    // , episodeReturnedTitle      = episodeInfo.title
+    // , episodeStripped           = episodeReturnedTitle.replace(this.valid_filetypes, '')
+    // , episodeTitle              = episodeStripped.trimRight();
 
     // TODO: Make this more fault tolerant! Crashes in some cases when no
     // Show name could be found
     var episodeDetails = episoder.parseFilename(originalTitle);
+    console.log(episodeDetails);
     if (!episodeDetails) return callback();
 
     var trimmedTitle = episodeDetails.show;
@@ -34,7 +35,8 @@ exports.processFile = function (fileObject, callback) {
             filePath: path.normalize(fileObject.href),
             name: trimmedTitle,
             season: episodeDetails.season || 0,
-            episode: episodeDetails.episode || 0
+            episode: episodeDetails.episode || 0,
+            title: episodeDetails.title || ""
         }})
         .spread(function(episode, created) {
             moviedb.searchTv({query: trimmedTitle})
