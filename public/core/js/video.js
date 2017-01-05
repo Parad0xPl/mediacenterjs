@@ -49,7 +49,7 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
     globalplayer = player;
     var actualDuration  = data.duration;
     if(!closeButton){
-      var closeButton = player.addChild("closeButton");
+      closeButton = player.addChild("closeButton");
       console.log(closeButton);
       closeButton.el_.onclick = function () {
         player.pause();
