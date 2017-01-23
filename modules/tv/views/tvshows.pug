@@ -55,9 +55,9 @@ block body
                             ol.episodes
                                 li.episode(ng-repeat="episode in tvshow.Episodes  | orderBy: ['season','episode']", ng-class="{current: player.current.episode == $index}", ng-click="playEpisode(episode); playlist.Visible = true") #{lingua.tvshows_season} {{episode.season }} - #{lingua.tvshows_episode} {{episode.episode }}
                                   span(style="float:right") {{episode.title}}
-                                    
 
-           ul#tvshows(ng-class="{side: player.playlist.length  > 0  && playlist.Visible}")
+
+            ul#tvshows(ng-class="{side: player.playlist.length  > 0  && playlist.Visible}")
                li.tvshow(ng-repeat="tvshow in tvshows | filter:query  | orderBy: 'name'", ng-class="{current: focused == tvshows.indexOf(tvshow)}", ng-click="player.playlist.add(tvshow);playlist.Visible = true; changeSelected(tvshow);").col-md-2.col-xs-12
                         i.circular.inverted.edit.icon(ng-click="open(tvshow)")
                         img(ng-src="{{tvshow.posterURL}}")
@@ -69,7 +69,7 @@ block body
                 .ppc-percents
                     .pcc-percents-wrapper
                         span {{serverMessage}}%
-            
+
         h2.loading(ng-show="tvshows.length === 0") #{lingua.tvshows_no_data_found}
 
     video#player.video-js.vjs-default-skin(width="100%", height="100%", ng-show="playing", controls, preload="metadata")
