@@ -116,7 +116,7 @@ block body
             .form-group
                 label #{lingua.setting_language}
                 select#language(name="language")
-                    - for lang in availableLanguages
+                    for lang in availableLanguages
                         option(value=lang, selected=lang == language) #{lang}
             .form-group
                 label #{lingua.setting_location}
@@ -132,12 +132,12 @@ block body
             .form-group
                 label(for="screensaver") Screensaver
                 select#screensaver(name="screensaver")
-                    - for saver in availableScreensavers
+                    for saver in availableScreensavers
                         option(value=saver, selected=saver == screensaver) #{saver}
             .form-group
                 label #{lingua.setting_theme}
                 select#theme(name="theme")
-                    - for theme in themes
+                    for theme in themes
                         option(selected=theme) #{theme}
             .form-group.mcjs-rc-controllable
                 label(for="schedule") When should data be gathered autmatically?
