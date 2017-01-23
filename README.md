@@ -3,19 +3,19 @@
 
 [![mediacenterjs](http://mediacenterjs.com/global/images/screen1.png)](http://www.mediacenterjs.com)
 
-__A NodeJS based media center__ 
+__A NodeJS based media center__
 
-Website: http://www.mediacenterjs.com 
+Website: http://www.mediacenterjs.com
 
 What is MediacenterJS?
 =========================
 
 MediacenterJS is a media center (like for instance XBMC) running completely from the comfort of your browser.
-The backend is based on Node.JS with ExpressJS and JADE templates. 
-The MVC structure allows developers to add a plugin to MCJS with ease. 
+The backend is based on Node.JS with ExpressJS and PUG templates. 
+The MVC structure allows developers to add a plugin to MCJS with ease.
 The server application runs on Windows, MAC and Linux systems, the client runs in every modern browser (Chrome is preferable though).
 
-Who is this for? 
+Who is this for?
 =========================
 
 Although services like Netflix or HBOgo are really awesome, they do not have every media you might enjoy or already own. Especially if you're born before the streaming age like me, you'll probably have a lot of media locally somewhere. So, if you want the convienence of the aformentioned services, but you want to use your own media, this app is for you!
@@ -52,7 +52,7 @@ Current features:
 * Keyboard controls
 * Movie indexing
 * Multi-language support
-* Display movies, tvshow and music information 
+* Display movies, tvshow and music information
 * Local caching of information and images
 * Transcoding and playback of movies, tv shows and music
 * Subtitle support
@@ -72,7 +72,7 @@ Supported file formats:
 ==================
 Video: AVI/MOV/WMV/MP4/MKV/MPEG
 
-Audio: MP3/M4a 
+Audio: MP3/M4a
 
 Known issues:
 =================
@@ -93,7 +93,7 @@ Feel free to contribute by translating.
 ### Main contributors: ###
 
 * [Terry MooreII](https://github.com/TerryMooreII) For the Javascript Jabber app and building the Plugin manager
-* [Stefan Hoffman](https://github.com/hoffi) for his hudge contribution to the backend and German translation 
+* [Stefan Hoffman](https://github.com/hoffi) for his hudge contribution to the backend and German translation
 * [Jonathan Bailey](https://github.com/Jon889) for his hudge code contributions and database abstraction layer
 * [Matthew Marino](https://github.com/Karnith) for his FFMPEG expertise
 
@@ -109,7 +109,7 @@ Feel free to contribute by translating.
 * [Ionică Bizău](https://github.com/IonicaBizau) for the [Youtube API NPM module](https://github.com/IonicaBizau/youtube-api)
 * [Luis Eduardo Brito](https://github.com/luiseduardobrito) and [Welkson Ramos](https://github.com/welksonramos) for their Portuguese translation
 * [Kasper Isager](https://github.com/kasperisager) for his Danish translation
-* [Robin Larsson](https://github.com/TankMasterRL) and 
+* [Robin Larsson](https://github.com/TankMasterRL) and
 [Skruf90](https://github.com/skruf90)for their Swedish translation
 * [Skruf90](https://github.com/skruf90) for his Norwegian translation
 * [Jussi Vatjus](https://github.com/jupe) for his code support

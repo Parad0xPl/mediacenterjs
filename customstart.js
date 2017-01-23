@@ -11,7 +11,7 @@ console.log(moduleLoader.loadModules());
 const http = require('http');
 var server = http.createServer(app);
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 app.setMaxListeners(100);
 app.use(bodyParser.json());

@@ -64,7 +64,7 @@ if(!fs.existsSync('./lib/database/')){
 }
 var env = process.env.NODE_ENV || 'development';
 if ('development' === env) {
-    app.set('view engine', 'jade');
+    app.set('view engine', 'pug');
     app.set('views', __dirname + '/views');
     app.setMaxListeners(100);
     app.use(static(__dirname + '/public'));
