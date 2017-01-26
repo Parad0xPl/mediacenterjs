@@ -1,5 +1,5 @@
 !start.bat
-bower_content/
+bower_contents/
 
 lib-cov
 *.seed
