@@ -1,4 +1,5 @@
 !start.bat
+public/vendor/
 
 lib-cov
 *.seed
