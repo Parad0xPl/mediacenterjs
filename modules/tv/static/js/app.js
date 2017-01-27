@@ -25,8 +25,8 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
     $scope.serverMessage = 0;
     $scope.serverStatus= '';
 
-    $http.get('/tv/load').success(function(data) {
-        $scope.tvshows = data;
+    $http.get('/tv/load').then(function(response) {
+        $scope.tvshows = response.data;
     });
 
     $scope.playEpisode = function(episode){
@@ -96,48 +96,48 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
         }
     };
 
-    var setupSocket = {
-        async: function() {
-            var promise = $http.get('/configuration/').then(function (response) {
-                var configData  = response.data;
-                var socket      = io.connect();
-                socket.on('connect', function(data){
-                    socket.emit('screen');
-                });
-                return {
-                    on: function (eventName, callback) {
-                        socket.on(eventName, function () {
-                            var args = arguments;
-                            $scope.$apply(function () {
-                                callback.apply(socket, args);
-                            });
-                        });
-
-                    },
-                    emit: function (eventName, data, callback) {
-                        socket.emit(eventName, data, function () {
-                            var args = arguments;
-                            $scope.$apply(function () {
-                                if (callback) {
-                                    callback.apply(socket, args);
-                                }
-                            });
-                        });
-                    }
-                };
-                return data;
-            });
-            return promise;
-        }
-    };
-
-
-    setupSocket.async().then(function(data) {
-        if (typeof data.on !== "undefined") {
-            $scope.remote       = remote(data, $scope, player);
-            $scope.keyevents    = keyevents(data, $scope, player);
-        }
-    });
+    // var setupSocket = {
+    //     async: function() {
+    //         var promise = $http.get('/configuration/').then(function (response) {
+    //             var configData  = response.data;
+    //             var socket      = io.connect();
+    //             socket.on('connect', function(data){
+    //                 socket.emit('screen');
+    //             });
+    //             return {
+    //                 on: function (eventName, callback) {
+    //                     socket.on(eventName, function () {
+    //                         var args = arguments;
+    //                         $scope.$apply(function () {
+    //                             callback.apply(socket, args);
+    //                         });
+    //                     });
+    //
+    //                 },
+    //                 emit: function (eventName, data, callback) {
+    //                     socket.emit(eventName, data, function () {
+    //                         var args = arguments;
+    //                         $scope.$apply(function () {
+    //                             if (callback) {
+    //                                 callback.apply(socket, args);
+    //                             }
+    //                         });
+    //                     });
+    //                 }
+    //             };
+    //             return data;
+    //         });
+    //         return promise;
+    //     }
+    // };
+    //
+    //
+    // setupSocket.async().then(function(data) {
+    //     if (typeof data.on !== "undefined") {
+    //         $scope.remote       = remote(data, $scope, player);
+    //         $scope.keyevents    = keyevents(data, $scope, player);
+    //     }
+    // });
 
 
 });

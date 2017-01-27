@@ -41,7 +41,8 @@ h2.loading{top:80px;}
 }
 
 #tvshows{
-    margin: 0 auto;
+    /*margin: 0 auto;*/
+    width: 100%;
     padding: 0;
     list-style: none;
     display: block;
@@ -87,15 +88,15 @@ h2.loading{top:80px;}
 }
 
 .tvshow{
+    box-sizing: border-box;
     float:left;
     list-style:none;
     z-index:99;
     position:relative;
-    padding: 0px;
-    margin: 10px 5px;
+    padding: 10px;
+    margin: 0;
     border: 0;
     display:block;
-    background:#fff;
     cursor:pointer;
 }
 
