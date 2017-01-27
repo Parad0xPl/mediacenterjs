@@ -185,8 +185,10 @@ p a:hover {
     top: 0;
     left: 0;
     margin: 0;
-    width: 100% !important;
-    height: 100% !important;
+    max-width: initial;
+    max-height: initial;
+    width: 100vw !important;
+    height: 100vh !important;
     z-index: 9;
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
