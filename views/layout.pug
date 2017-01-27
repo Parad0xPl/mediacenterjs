@@ -31,14 +31,15 @@ html(lang="en",ng-app=angular_app)
         // Core inclusion
         link(rel='stylesheet', href='/core/css/fonts/opensans.css')
 
-        link(rel='stylesheet', href='/core/css/bootstrap.min.css')
-        link(rel='stylesheet', href='/core/css/sweet-alert.css')
+        link(rel='stylesheet', href='/lib/bootstrap.min.css')
+        //- link(rel='stylesheet', href='/lib/sweetalert.min.css')
         link(rel='stylesheet', href='/core/css/style.css')
         link(rel='stylesheet', href='/core/css/icon.css')
-        link(rel='stylesheet', href='/core/css/jquery-ui-1.10.3.custom.min.css')
+        //- link(rel='stylesheet', href='/core/css/jquery-ui-1.10.3.custom.min.css')
 
-        script(src="/core/js/plugins/jquery/jquery-1.8.2.min.js")
-        script(src="/core/js/plugins/jquery/jquery-ui-1.10.3.min.js")
+        script(src="/lib/jquery.min.js")
+        script(src="/lib/tether.min.js")
+        script(src="/lib/bootstrap.min.js")
 
         if selectedTheme
             link(rel='stylesheet', href='/themes/' + selectedTheme +'/style.css')
@@ -50,19 +51,19 @@ html(lang="en",ng-app=angular_app)
             script(src="/core/js/plugins/knockout-2.3.0.js")
 
         if use_angular
-            script(src="/core/js/plugins/angular/angular.min.js")
-            script(src="/core/js/plugins/angular/angular-resource.min.js")
-            script(src="/core/js/plugins/angular/angular-cookies.min.js")
-            script(src="/core/js/plugins/angular/angular-sanitize.min.js")
-            script(src="/core/js/plugins/angular/angular-route.min.js")
-            script(src="/core/js/plugins/angular/angular-animate.min.js")
-            script(src="/core/js/plugins/angular/angular-filter.js")
+            script(src="/lib/angular.min.js")
+            //- script(src="/core/js/plugins/angular/angular-resource.min.js")
+            //- script(src="/core/js/plugins/angular/angular-cookies.min.js")
+            //- script(src="/core/js/plugins/angular/angular-sanitize.min.js")
+            //- script(src="/core/js/plugins/angular/angular-route.min.js")
+            //- script(src="/core/js/plugins/angular/angular-animate.min.js")
+            //- script(src="/core/js/plugins/angular/angular-filter.js")
             script(src="/core/js/mcjs-core.js")
 
-        script(src="/core/js/plugins/fastclick.js")
+        script(src="/lib/fastclick.js")
         script(src="/core/js/plugins/countries.js")
-        script(src="/core/js/plugins/socket.io.min.js")
-        script(src="/core/js/plugins/sweet-alert.min.js")
+        script(src="/lib/socket.io.min.js")
+        script(src="/lib/sweetalert.min.js")
         script(src="/core/js/plugins/jquery/jquery.scrollintoview.min.js")
         script(src="/core/js/plugins/jquery/jquery.idle-timer.js")
         script(src="/core/js/plugins/jquery/jquery.i18n.properties.-1.0.9.js")
@@ -104,4 +105,3 @@ html(lang="en",ng-app=angular_app)
 
 body(id=body_id, class=body_class,ng-controller=angular_body_ctrl,ng-class=angular_body_class)
     block body
-

@@ -2,7 +2,7 @@ extends layout
 
 block declarations
     - body_class = 'homepage';
-    - include_remote = true;
+    - include_remote = false;
     - use_angular           = true;
     - angular_app           = "dashboardApp";
     - angular_body_ctrl     = "dashboardCtrl";
@@ -27,14 +27,15 @@ block body
                     #dateandtime
                         date-time.time(format="H:mm:ss")
                         date-time.date(format="dd-MM-yyyy")
-    .container-fluid
+    .container-fluid(style="overflow: hidden")
         .row
-            .message(ng-show="updating") Downloading and installing update
-                br
-                Please wait for the installation to finish...
-            ul#tiles(mcjs-library, ng-hide="updating")
-                li.tile.mcjs-rc-controllable.col-md-2.col-xs-1(mcjs-library-item, class="{{item.appLink}}", ng-repeat="item in apps", style="{{item.tileCSS}}")
-                    a(href="{{item.appLink}}", ng-click="openApp($event)").mcjs-rc-clickable
-                        img(ng-src="{{item.tileLink}}")
-                        span {{item.appName}}
+            .col-md-12
+                .message(ng-show="updating") Downloading and installing update
+                    br
+                    Please wait for the installation to finish...
+                ul#tiles(mcjs-library, ng-hide="updating")
+                    li.tile.mcjs-rc-controllable.col-md-2.col-xs-1(mcjs-library-item, class="{{item.appLink}}", ng-repeat="item in apps", style="{{item.tileCSS}}")
+                        a(href="{{item.appLink}}", ng-click="openApp($event)").mcjs-rc-clickable
+                            img(ng-src="{{item.tileLink}}")
+                            span {{item.appName}}
     //- link(rel='stylesheet', ng-href='{{item.tileCSS}}', ng-if="item.tileCSS", ng-repeat="item in apps")
