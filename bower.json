@@ -1,6 +1,5 @@
 {
   "name": "mediacenterjs",
-  "directory": "public/vendor",
   "dependencies": {
     "jquery": "^3.1.1",
     "bootstrap": "v4.0.0-alpha.6",
@@ -9,5 +8,31 @@
     "sweetalert": "^1.1.3",
     "fastclick": "^1.0.6",
     "angular": "^1.6.1"
+  },
+  "overrides": {
+    "jquery": {
+      "main": "dist/jquery.min.js"
+    },
+    "bootstrap":{
+      "main": ["dist/js/bootstrap.min.js", "dist/css/bootstrap.min.css"]
+    },
+    "video.js":{
+      "main": ["dist/video.min.js", "dist/video-js.min.css"]
+    },
+    "socket.io-client.js":{
+      "main": ["dist/socket.io.min.js"]
+    },
+    "tether":{
+      "main": ["dist/js/tether.min.js"]
+    },
+    "sweetalert":{
+      "main": ["dist/sweetalert.min.js"]
+    },
+    "fastclick":{
+      "main": ["lib/fastclick.js"]
+    },
+    "angular":{
+      "main": ["angular.min.js"]
+    }
   }
 }

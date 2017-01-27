@@ -1,5 +1,6 @@
 !start.bat
 bower_components/
+public/lib/
 
 lib-cov
 *.seed
