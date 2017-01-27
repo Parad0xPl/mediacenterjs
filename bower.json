@@ -19,7 +19,7 @@
     "video.js":{
       "main": ["dist/video.min.js", "dist/video-js.min.css"]
     },
-    "socket.io-client.js":{
+    "socket.io-client":{
       "main": ["dist/socket.io.min.js"]
     },
     "tether":{
