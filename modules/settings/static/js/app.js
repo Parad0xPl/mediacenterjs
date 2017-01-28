@@ -25,7 +25,8 @@ settingsApp.controller('settingsCtrl', function ($scope, $http, $modal, $timeout
         $scope.oauthToken = localStorage.getItem('oauth_token');
         $scope.oauthKey = localStorage.getItem('oauth_key');
     }
-    $http.get('/settings/load').success(function(data) {
+    $http.get('/settings/load').then(function(response) {
+        var data = response.data;
         $scope.availableLanguages = data.availableLanguages;
         $scope.availableQuality = data.availableQuality;
         $scope.availableScreensavers = data.availableScreensavers;
@@ -35,8 +36,8 @@ settingsApp.controller('settingsCtrl', function ($scope, $http, $modal, $timeout
         $scope.pluginSettings = data.pluginSettings;
         $scope.countries = data.countries;
     });
-    $http.get('/settings/devices').success(function (data) {
-        $scope.devices = data;
+    $http.get('/settings/devices').then(function (response) {
+        $scope.devices = response.data;
     });
     //Can't have a custom function name in $http.jsonp
     $.ajax({

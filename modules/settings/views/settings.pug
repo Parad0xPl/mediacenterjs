@@ -34,13 +34,13 @@ block body
                     h2 #{lingua.settings_configurable_options}
                     setting(icon="folder")
                         label(for="moviepath") #{lingua.setting_movielocation}
-                        input#moviepath(name="moviepath", ng-model="config.moviepath", type="text",placeholder="#{lingua.settings_placeholder_path}")
+                        input#moviepath(name="moviepath", ng-model="config.moviepath", type="text",placeholder=lingua.settings_placeholder_path)
                     setting(icon="folder")
                         label.col-md-2(for="musicpath") #{lingua.setting_musiclocation}
-                        input#musicpath(name="musicpath", ng-model="config.musicpath", type="text",placeholder="#{lingua.settings_placeholder_path}")
+                        input#musicpath(name="musicpath", ng-model="config.musicpath", type="text",placeholder=lingua.settings_placeholder_path)
                     setting(icon="folder")
                         label(for="tvpath") #{lingua.setting_tvlocation}
-                        input#tvpath(name="tvpath", ng-model="config.tvpath", type="text", placeholder="#{lingua.settings_placeholder_path}")
+                        input#tvpath(name="tvpath", ng-model="config.tvpath", type="text", placeholder=lingua.settings_placeholder_path)
                     setting(icon="flag")
                         label(for="language") #{lingua.setting_language}
                         select#language(name="language", ng-options="isoLangs[lang].nativeName for lang in availableLanguages track by lang", ng-model="config.language")
@@ -49,7 +49,7 @@ block body
                         select#country(name="country", ng-options="code as name for (code, name) in countries", ng-model="config.country")
                     setting(icon="globe")
                         label(for="location") #{lingua.setting_location}
-                        input#location(name="location", ng-model="config.location", type="text", placeholder="#{lingua.settings_placeholder_location}")
+                        input#location(name="location", ng-model="config.location", type="text", placeholder=lingua.settings_placeholder_location)
                     setting(icon="coffee")
                         label(for="screensaver") #{lingua.setting_screensaver}
                         select#screensaver(name="screensaver", ng-options="saver for saver in availableScreensavers track by saver", ng-model="config.screensaver")
@@ -61,10 +61,10 @@ block body
                         select#theme(name="theme", ng-options="theme for theme in themes track by theme", ng-model="config.theme")
                     setting(icon="time")
                         label(for="schedule") #{lingua.setting_data_gathering}
-                        input#schedule(name="schedule", ng-model="config.schedule", type="text", placeholder="#{lingua.settings_placeholder_time_data_gathering}")
+                        input#schedule(name="schedule", ng-model="config.schedule", type="text", placeholder=lingua.settings_placeholder_time_data_gathering)
                     setting(icon="exchange")
                         label(for="port") #{lingua.setting_port}
-                        input#port(name="port", ng-model="config.port", type="text", placeholder="#{lingua.settings_placeholder_port}")
+                        input#port(name="port", ng-model="config.port", type="text", placeholder=lingua.settings_placeholder_port)
 
                     div(ng-repeat="pluginSetting in pluginSettings")
                         .form-group.mcjs-rc-controllable(ng-repeat="field in pluginSetting")
