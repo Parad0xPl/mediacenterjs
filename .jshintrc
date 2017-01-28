@@ -31,6 +31,9 @@
 
 	"globals": {
 		"Device": true,
+		"angular": true,
+		"$": true,
+		"window": true,
 		"document": true,
 		"videojs": true,
 		"XMLHttpRequest": true,
