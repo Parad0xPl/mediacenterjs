@@ -57,6 +57,7 @@ header, header * {
     margin: 0;
     height: 100%;
     margin-right: 10px;
+    float: left;
 }
 #show-playlist i {
     height: 100%;

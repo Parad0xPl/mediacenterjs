@@ -30,14 +30,14 @@
                         expressionHandler($scope, {$event:ev});
                     });
                 });
-        }
+        };
         });
     }
     createDropDirective('ngOnDragBegin', 'dragstart');
     createDropDirective('ngOnDrop', 'drop');
     createDropDirective('ngOnDragOver', 'dragover');
 
-    window.musicCtrl = function($scope, $http, player, $modal, $filter, audio) {
+    window.musicCtrl = function($scope, $http, player, $modal, $filter/*, audio*/) {
         $scope.player = player;
         $scope.focused = 0;
         $scope.serverMessage = 0;
@@ -69,12 +69,13 @@
             $(".row-tracks").css("width", layout());
         });
 
-        $http.get('/music/load').success(function(data) {
-            $scope.albums = data;
+        $http.get('/music/load').then(function(response) {
+            $scope.albums = response.data;
             angular.forEach($scope.albums, function(album) {
                 album._type = 'album';
-                album.tracks = $filter('orderBy')(album.tracks, 'order');
-                angular.forEach(album.tracks, function(track) {
+                console.log(album.Tracks);
+                album.Tracks = $filter('orderBy')(album.Tracks, 'order');
+                angular.forEach(album.Tracks, function(track) {
                      track.album = album;
                      track._type = 'track';
                 });
@@ -91,18 +92,18 @@
                 $scope.player.playlist[index] = $scope.player.playlist[$scope.draggedIndex];
                 $scope.player.playlist[$scope.draggedIndex] = temp;
             }
-        }
+        };
         $scope.changeSelected = function(album){
             $scope.focused = $scope.albums.indexOf(album);
-        }
+        };
 
         $scope.fullscreen = function() {
             if ($scope.className === "normal"){
                 $scope.className = "fullscreen";
             } else {
                 $scope.className = "normal";
-            };
-        }
+            }
+        };
 
         $scope.open = function (album) {
             var modalInstance = $modal.open({
@@ -116,12 +117,14 @@
                     }
                 }
             });
-        }
+        };
 
         function copyOmit(obj, omitkeys) {
             var copy = angular.copy(obj);
             for (var i in omitkeys) {
-                delete copy[omitkeys[i]];
+                if(omitkeys.hasOwnProperty(i)){
+                    delete copy[omitkeys[i]];
+                }
             }
             return copy;
         }
@@ -135,13 +138,13 @@
                     method: "post",
                     data: copyOmit($scope.current, ['artist', 'tracks']),
                     url: "/music/edit"
-                }).success(function(data, status, headers, config) {
+                }).then(function() {
                     angular.copy($scope.current, $scope.original);
                     $modalInstance.dismiss();
                 }).error(function() {
                     $scope.errorMessage = "Unable to save changes. Check server is running and try again.";
                 });
-            }
+            };
         };
 
 
@@ -175,7 +178,7 @@
                             });
                         }
                     };
-                    return data;
+                    return response.data;
                 });
                 return promise;
             }
@@ -192,6 +195,7 @@
         $scope.orderProp = 'genre';
     };
 
+    musicApp.controller("musicCtrl", ['$scope', '$http', 'player', '$modal', '$filter', window.musicCtrl]);
 
     musicApp.factory('audio', function($document) {
         var audio = $document[0].createElement('audio');
@@ -228,7 +232,7 @@
 
                 if (itemIdx !== null) {
                     var currentItem = playlist[current.itemIdx];
-                    player.currentTrack = currentItem.tracks[current.subItemIdx];
+                    player.currentTrack = currentItem.Tracks[current.subItemIdx];
                     player.currentAlbum = currentItem;
                 } else {
                     player.currentTrack = subItemIdx;
@@ -282,7 +286,7 @@
                     if (currentItem._type ==='track') {
                         current.itemIdx++;
                     } else if (currentItem._type === 'album') {
-                        if (current.subItemIdx + 1 >= currentItem.tracks.length) {
+                        if (current.subItemIdx + 1 >= currentItem.Tracks.length) {
                             current.itemIdx++;
                             current.subItemIdx = 0;
                         } else {
@@ -296,7 +300,7 @@
 
                 }
             },
-            previous: function() {
+            previous: function() { // jshint ignore:line
                 if (!playlist.length){
                     return;
                 }
@@ -314,7 +318,7 @@
                         if (newItem._type === 'track') {
                             current.subItemIdx = 0;
                         } else if (newItem._type === 'album') {
-                            current.subItemIdx = newItem.tracks.length - 1;
+                            current.subItemIdx = newItem.Tracks.length - 1;
                         }
                     }
                     if (player.playing){
@@ -331,7 +335,7 @@
                     playlist.splice(0, 1);
                 }
             }
-            if (playlist.indexOf(album) != -1){
+            if (playlist.indexOf(album) !== -1){
                 return;
             }
             playlist.push(album);
@@ -339,7 +343,7 @@
 
         playlist.remove = function(album) {
             var index = playlist.indexOf(album);
-            if (index == current.itemIdx){
+            if (index === current.itemIdx){
                 player.reset();
             }
             playlist.splice(index, 1);
@@ -368,7 +372,7 @@
     function randomTrack(player, playlist,current){
         var currentItem = playlist[current.itemIdx];
         if(player.random === true){
-            var currentAlbumTracks  = currentItem.tracks.length;
+            var currentAlbumTracks  = currentItem.Tracks.length;
             var randomIndex = Math.floor(Math.random() * currentAlbumTracks);
             current.subItemIdx = randomIndex;
             if (player.playing){
@@ -378,4 +382,3 @@
     }
 
 })(window);
-
