@@ -211,13 +211,13 @@ function playEpisode(episode, $http, scope){
     }
 
 
-    $http.get('/tv/'+episode.id+'/play/'+platform).success(function(data) {
+    $http.get('/tv/'+episode.id+'/play/'+platform).then(function(response) {
 
         //Get url+port
         var url = window.location.href
         var arr = url.split("/");
         var result = arr[0] + "//" + arr[2];
-
+        var data = response.data;
         var fileName                =  data.fileName
             , outputFile            =   fileName.replace(/ /g, "-")
             , extentionlessFile     =   outputFile.replace(/\.[^/.]+$/, "")
@@ -229,7 +229,7 @@ function playEpisode(episode, $http, scope){
 
         videoJSHandler(playerID, data, episode.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type, scope);
 
-    }) .error(function (msg, code) {
+    }, function (msg, code) {
         sweetAlert({title : "",
                     text : "The episode " +  episode.title + " could not be found",
                     type : "error",
