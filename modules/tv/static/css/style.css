@@ -77,6 +77,14 @@ body{
   overflow: hidden;
 }
 
+#videowrapper{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 .tvshow::after {
   content: " ";
   width: calc(100% - 20px);
@@ -177,8 +185,8 @@ h2.loading{top:80px;}
 .tvshow:hover .edit.icon{
     display:block;
     position:absolute;
-    top:5px;
-    right:5px;
+    top:15px;
+    right:10px;
     z-index:9;
 }
 .modal-body img{max-width:300px; max-height:400px;}

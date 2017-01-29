@@ -52,14 +52,15 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
       closeButton = player.addChild("closeButton");
       console.log(closeButton);
       closeButton.el_.onclick = function () {
-        player.pause();
-        scope.playing = false;
-        scope.$apply();
-        player.currentTime(0);
+        scope.$apply(function () {
+          player.pause();
+          scope.playing = false;
+          player.currentTime(0);
+        });
       };
     }
     player.ready(function() {
-      console.log("Player readyplayer");
+      // console.log("Player readyplayer");
         // setTimeout(function(){
             player.src({
                 type    : "video/mp4",
@@ -74,15 +75,15 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
             }
 
             if(data.duration - 5*60 > data.progression){
-              console.log("progress");
+              // console.log("progress");
             }else{
-              console.log("Reset");
+              // console.log("Reset");
               data.progression = 0;
             }
 
 
             var setProgression  = parseFloat(data.progression);
-            console.log(data.duration - 3*60, data.progression, data.duration - 3*60 > data.progression);
+            // console.log(data.duration - 3*60, data.progression, data.duration - 3*60 > data.progression);
 
             player.currentTime(setProgression);
             player.volume(0.4);
