@@ -50,6 +50,11 @@
       "main": [
         "angular.min.js"
       ]
+    },
+    "angular-route": {
+      "main": [
+        "angular-route.min.js"
+      ]
     }
   }
 }
