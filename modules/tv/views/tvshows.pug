@@ -57,7 +57,7 @@ block body
                         a.backlink(href="/",ng-class="{side: player.playlist.length > 0}") &#xe113;
                         h1.hidden-xs #{lingua.tvshows}
 
-                        input#search.pull-right.hidden-xs-down(ng-model="query", type="text", placeholder=lingua.tvshows_placeholder_search ,ng-show="tvshows")
+                        input#search.pull-right.hidden-xs-down(ng-model="query.name", type="text", placeholder=lingua.tvshows_placeholder_search ,ng-show="tvshows")
 
         .container-fluid(style="overflow:auto; height:100%;")
             .row
