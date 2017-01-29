@@ -84,10 +84,10 @@ block body
                     .row
                         .form-group
                             img.col-md-offset-1(ng-src="{{edit.banner}}")
-                        .form-group
+                        .form-group(style="width:100%;")
                             label.col-md-3.col-md-offset-1 #{lingua.tvshows_edit_banner}
                             input.col-md-7(type="text",name="posterURL",ng-model="edit.posterURL",required,ng-value="current.posterURL")
-                        .form-group
+                        .form-group(style="width:100%;")
                             label.col-md-3.col-md-offset-1 #{lingua.tvshows_edit_title}
                             input.col-md-7(type="text",name="name",ng-model="edit.name",required,ng-value="current.name")
             .modal-footer
