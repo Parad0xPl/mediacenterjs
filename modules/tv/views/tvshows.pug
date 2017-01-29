@@ -37,7 +37,7 @@ block additional_scripts
 block body
     #newplaylist(ng-show="player.playlist.length > 0 && playlist.Visible", ng-cloak)
         h2 #{lingua.tvshows_playlist}
-            i.left.double.angle.icon.pull-right(ng-click="playlist.Visible = false", style="float:right;margin:0;")
+            i.left.double.angle.icon.pull-right(ng-click="playlist.Visible = false", style="float:right;margin:0;padding:0 5px;")
         ul
             li.currentshow(ng-repeat="tvshow in player.playlist", ng-mouseover="changeSelected(tvshow)", ng-class="{current: player.current.tvshow == $index}")
                 .header( ng-click="player.playlist.remove(tvshow); playlist.Visible = false; hideSelected();")
@@ -57,7 +57,7 @@ block body
                         a.backlink(href="/",ng-class="{side: player.playlist.length > 0}") &#xe113;
                         h1.hidden-xs #{lingua.tvshows}
 
-                        input#search.pull-right.hidden-sm-down(ng-model="query", type="text", placeholder=lingua.tvshows_placeholder_search ,ng-show="tvshows")
+                        input#search.pull-right.hidden-xs-down(ng-model="query", type="text", placeholder=lingua.tvshows_placeholder_search ,ng-show="tvshows")
 
         .container-fluid(style="overflow:auto; height:100%;")
             .row
