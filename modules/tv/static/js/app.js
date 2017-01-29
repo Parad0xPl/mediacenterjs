@@ -18,17 +18,12 @@
 'use strict';
 
 var tvApp = angular.module('tvApp', ['ui.bootstrap']);
-var hidevideo;
 tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
     $scope.player = player;
     $scope.focused = null;
     $scope.serverMessage = 0;
     $scope.serverStatus= '';
     $scope.playing = false;
-    hidevideo = function () {
-      $scope.playing = false;
-      $scope.$apply();
-    }
     $http.get('/tv/load').then(function(response) {
         $scope.tvshows = response.data;
     });
@@ -94,7 +89,7 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
                     posterURL       : $scope.edit.posterURL
                 },
                 url: "/tv/edit"
-            }).success(function(data, status, headers, config) {
+            }).then(function(data, status, headers, config) {
                 location.reload();
             });
         }

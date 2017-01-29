@@ -26,6 +26,11 @@ block additional_scripts
                 $('#inner-playlist').slimScroll({
                     height: '100%'
                 });
+                $('#mainbody > .container-fluid').slimScroll({
+                    height: '100%',
+                    width: '100%',
+                    color: '#5a5d63'
+                });
             }
         });
 
@@ -54,7 +59,7 @@ block body
 
                         input#search.pull-right.hidden-sm-down(ng-model="query", type="text", placeholder=lingua.tvshows_placeholder_search ,ng-show="tvshows")
 
-        .container-fluid(style="overflow:hidden")
+        .container-fluid(style="overflow:auto; height:100%;")
             .row
                 ul#tvshows
                    li.tvshow(ng-repeat="tvshow in tvshows | filter:query  | orderBy: 'name'", ng-class="{current: focused == tvshows.indexOf(tvshow)}", ng-click="player.playlist.add(tvshow);playlist.Visible = true; changeSelected(tvshow);").col-xl-2.col-lg-3.col-md-4.col-sm-6.col-xs-12
@@ -86,7 +91,7 @@ block body
                             label.col-md-3.col-md-offset-1 #{lingua.tvshows_edit_title}
                             input.col-md-7(type="text",name="name",ng-model="edit.name",required,ng-value="current.name")
             .modal-footer
-                input.btn(type="submit",value="#{lingua.tvshows_edit_submit}", ng-click="editItem()",required)
+                input.btn(type="submit", value=lingua.tvshows_edit_submit, ng-click="editItem()",required)
                 button.btn(ng-click="cancel()") #{lingua.tvshows_edit_cancel}
     #videowrapper(ng-show="playing")
         video#player.video-js.vjs-default-skin(width="100%", height="100%", controls, preload="metadata")

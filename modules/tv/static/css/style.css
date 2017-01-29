@@ -22,6 +22,10 @@ body{
   height: 100%;
 }
 
+.slimScrollDiv .container-fluid{
+  height: calc(100% - 60px) !important;
+}
+
 #newplaylist{
   background: #3d4045;
   width: 358px;
