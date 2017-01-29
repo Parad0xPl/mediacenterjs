@@ -60,8 +60,8 @@ routing.get['/:id/play/:action?'] = function (req, res){
 routing.get['/stop/'] = function (req, res){
   MovieHandler.stopTranscoding(handleCallback(res));
 };
-routing.get['/views/movie'] = function (req, res) {
-  res.render("movie.jade");
+routing.get['/movie'] = function (req, res) {
+  res.render("movie.pug");
 }
 
 routing.post = {};
