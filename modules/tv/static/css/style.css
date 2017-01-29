@@ -26,6 +26,10 @@ body{
   height: calc(100% - 60px) !important;
 }
 
+.double.angle.icon {
+  z-index: 1200;
+}
+
 #newplaylist{
   background: #3d4045;
   width: 358px;
@@ -150,7 +154,8 @@ h2.loading{top:80px;}
 #show-playlist i {
     height: 100%;
     line-height: 50px;
-    margin: 0 5px;
+    padding: 0 5px;
+    margin: 0;
     opacity: 1;
 }
 
