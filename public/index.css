@@ -1,3 +1,7 @@
+.slimScrollDiv > .container-fluid {
+  height: calc(100% - 75px) !important;
+}
+
 #tilesContainer tile{
   padding: 5px;
   height: 18em;
