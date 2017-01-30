@@ -1,3 +1,11 @@
+setting {
+  width: 100%;
+}
+
+select {
+  padding: 0.85em 1.2em !important;
+}
+
 #oauth {
     margin:0 0 20px;
     float:left;
