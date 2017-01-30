@@ -48,7 +48,7 @@ block body
                       span(style="float:right") {{episode.title}}
 
     #mainbody
-        header(ng-init="playlist.Visible = true")
+        header(ng-init="playlist.Visible = false")
             h1.pull-left#show-playlist(ng-hide="playlist.Visible || player.playlist.length <= 0")
                 i.right.double.angle.icon.pull-left(ng-click="playlist.Visible = true")
             .container(style="z-index:-1;")
