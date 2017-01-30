@@ -1,4 +1,4 @@
 //- div.tile.mcjs-rc-controllable(mcjs-library-item, class="{{item.appLink}}", style="{{item.tileCSS}}")
-a(href="{{item.appLink}}", ng-click="openApp($event)").mcjs-rc-clickable
+a(href="{{item.appLink}}", ng-click="openApp($event)", style="width:100%;height:100%;display:block;").mcjs-rc-clickable
     img(ng-src="{{item.tileLink}}")
     span {{item.appName}}
