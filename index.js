@@ -105,6 +105,11 @@ app.get("/apps", function(req, res) {
     res.json(moduleLoader.getApps());
 });
 
+app.get("/app/tile_template", function (req, res) {
+    console.log("tile");
+    res.render("app/tile_template");
+});
+
 app.get("/", function(req, res, next) { // jshint ignore:line
 
     DeviceInfo.storeDeviceInfo(req);

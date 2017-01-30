@@ -1,4 +1,5 @@
 {
   "mcmodule_name": "TV Shows",
-  "mcmodule_url": "tv"
+  "mcmodule_url": "tv",
+  "mcmodule_tileSize": 3
 }

@@ -1,4 +1,5 @@
 {
   "mcmodule_name": "Movies",
-  "mcmodule_url": "movies"
+  "mcmodule_url": "movies",
+  "mcmodule_tileSize": 2
 }

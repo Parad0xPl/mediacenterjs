@@ -10,7 +10,10 @@ block declarations
 block additional_scripts
     script(src="/core/js/plugins/qrcode/qrcode.min.js")
     script(src="/core/js/qrcode-generator.js")
-    script(src="/core/js/indexApp.js")
+    script(src="/app/app.js")
+    script(src="/app/dashboard.controller.js")
+    script(src="/app/data-time.directive.js")
+    script(src="/app/tile.directive.js")
     script(src="/core/js/plugins/jquery/jquery.slimscroll.min.js")
     script.
         $(function(){
@@ -22,6 +25,9 @@ block additional_scripts
                 });
             }
         });
+
+block additional_css
+    link(href="/index.css", rel="stylesheet")
 
 block body
     header
@@ -44,9 +50,6 @@ block body
                 .message(ng-show="updating") Downloading and installing update
                     br
                     Please wait for the installation to finish...
-                ul#tiles(mcjs-library, ng-hide="updating")
-                    li.tile.mcjs-rc-controllable.col-md-2.col-xs-1(mcjs-library-item, class="{{item.appLink}}", ng-repeat="item in apps", style="{{item.tileCSS}}")
-                        a(href="{{item.appLink}}", ng-click="openApp($event)").mcjs-rc-clickable
-                            img(ng-src="{{item.tileLink}}")
-                            span {{item.appName}}
+                #tilesContainer.row(mcjs-library, style="margin:5px 5% 0 5%;", ng-hide="updating")
+                    tile(ng-repeat="item in apps", item="item")
     //- link(rel='stylesheet', ng-href='{{item.tileCSS}}', ng-if="item.tileCSS", ng-repeat="item in apps")

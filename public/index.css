@@ -1,0 +1,27 @@
+#tilesContainer tile{
+  padding: 5px;
+  height: 18em;
+  background-clip: content-box !important;
+}
+
+tile[selected], tile:focus, tile:hover {
+    -webkit-transform: scale(1.02);
+}
+
+tile img{
+  width: 30%;
+  padding-top: 40px;
+  padding-left: 10px;
+  height: auto;
+  float: left;
+}
+
+tile > a > span {
+  display: block;
+  float: left;
+  color: #fff;
+  bottom: 0;
+  position: relative;
+  font-size: 40px;
+  padding-top: 170px;
+}

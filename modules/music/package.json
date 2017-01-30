@@ -1,4 +1,5 @@
 {
   "mcmodule_name": "Music",
-  "mcmodule_url": "music"
+  "mcmodule_url": "music",
+  "mcmodule_tileSize": "2"
 }
