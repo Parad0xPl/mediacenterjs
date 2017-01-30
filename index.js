@@ -106,7 +106,6 @@ app.get("/apps", function(req, res) {
 });
 
 app.get("/app/tile_template", function (req, res) {
-    console.log("tile");
     res.render("app/tile_template");
 });
 
@@ -256,6 +255,7 @@ app.get('/ip',function(req,res){
 
 app.post('/submit', function(req, res){
     configuration_handler.saveSettings(req.body, function() {
+        config = configuration_handler.getConfiguration();
         res.redirect('/');
     });
 });
