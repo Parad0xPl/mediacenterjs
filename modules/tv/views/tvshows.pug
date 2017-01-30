@@ -63,7 +63,7 @@ block body
             .row
                 ul#tvshows
                    li.tvshow(ng-repeat="tvshow in tvshows | filter:query  | orderBy: 'name'", ng-class="{current: focused == tvshows.indexOf(tvshow)}", ng-click="player.playlist.add(tvshow);playlist.Visible = true; changeSelected(tvshow);").col-xl-2.col-lg-3.col-md-4.col-sm-6.col-xs-12
-                        i.circular.inverted.edit.icon(ng-click="open(tvshow)")
+                        i.circular.inverted.edit.icon(ng-click="open(tvshow);$event.stopPropagation();")
                         img(ng-src="{{tvshow.posterURL}}")
 
             h2.loading(ng-show="!tvshows") #{lingua.loading} {{serverStatus}}
