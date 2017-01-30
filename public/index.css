@@ -18,10 +18,11 @@ tile img{
 
 tile > a > span {
   display: block;
+  width: 70%;
   float: left;
   color: #fff;
   bottom: 0;
   position: relative;
-  font-size: 40px;
+  font-size: 3em;
   padding-top: 170px;
 }
