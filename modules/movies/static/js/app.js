@@ -77,8 +77,9 @@ movieApp.factory('Movie', function($http, mcjsMediaPlayer) {
         var movie = this;
         mcjsMediaPlayer.playing = true;
         $http.get('/movies/'+this.id+'/play/'+platform)
-        .success(function(data) {
+        .then(function(response) {
             //Get url+port
+            var data = response.data;
             var url = window.location.href;
             var arr = url.split("/");
             var result = arr[0] + "//" + arr[2];
@@ -92,9 +93,10 @@ movieApp.factory('Movie', function($http, mcjsMediaPlayer) {
                 , homeURL               =   '/movies/'
                 , type                  =   'movies';
 
-            mcjsMediaPlayer.videoJSHandler(playerID, data, movie.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type);
-        })
-        .error(function () {
+            mcjsMediaPlayer.videoJSHandler(playerID, data, movie.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type, $scope, function () {
+              mcjsMediaPlayer.playing = false;
+            });
+        }, function () {
             mcjsMediaPlayer.playing = false;
             sweetAlert({title : "",
                 text : "The movie " +  movie.title + " could not be found",
