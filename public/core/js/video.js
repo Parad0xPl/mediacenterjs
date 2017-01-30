@@ -44,7 +44,7 @@
  }
 
 var globalplayer = null, closeButton = null;
-function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, homeURL, timeout, type, scope){ // jshint ignore:line
+function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, homeURL, timeout, type, scope, click){ // jshint ignore:line
     var player          = videojs(playerID);
     globalplayer = player;
     var actualDuration  = data.duration;
@@ -56,6 +56,7 @@ function videoJSHandler(playerID, data, mediaID, videoUrl, subtitleUrl, title, h
           player.pause();
           scope.playing = false;
           player.currentTime(0);
+          click();
         });
       };
     }
