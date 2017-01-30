@@ -11,6 +11,17 @@ block additional_scripts
     script(src="/core/js/plugins/qrcode/qrcode.min.js")
     script(src="/core/js/qrcode-generator.js")
     script(src="/core/js/indexApp.js")
+    script(src="/core/js/plugins/jquery/jquery.slimscroll.min.js")
+    script.
+        $(function(){
+            var isTouch = "ontouchstart" in document.documentElement;
+            if(!isTouch){
+                $('#inner-slim').slimScroll({
+                    height: '100%',
+                    width: '100%'
+                });
+            }
+        });
 
 block body
     header
@@ -27,7 +38,7 @@ block body
                     #dateandtime
                         date-time.time(format="H:mm:ss")
                         date-time.date(format="dd-MM-yyyy")
-    .container-fluid(style="overflow: hidden")
+    .container-fluid(style="overflow: hidden")#inner-slim
         .row
             .col-md-12
                 .message(ng-show="updating") Downloading and installing update
