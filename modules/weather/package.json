@@ -1,4 +1,5 @@
 {
   "mcmodule_name": "Weather",
-  "mcmodule_url": "weather"
+  "mcmodule_url": "weather",
+  "mcmodule_priority": 3
 }

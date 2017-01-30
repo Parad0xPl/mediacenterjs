@@ -1,5 +1,6 @@
 {
   "mcmodule_name": "Music",
   "mcmodule_url": "music",
-  "mcmodule_tileSize": "2"
+  "mcmodule_tileSize": "2",
+  "mcmodule_priority": 7
 }

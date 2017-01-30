@@ -51,5 +51,5 @@ block body
                     br
                     Please wait for the installation to finish...
                 #tilesContainer.row(mcjs-library, style="margin:5px 5% 0 5%;", ng-hide="updating")
-                    tile(ng-repeat="item in apps", item="item")
+                    tile(ng-repeat="item in apps | orderBy:'priority':true", item="item")
     //- link(rel='stylesheet', ng-href='{{item.tileCSS}}', ng-if="item.tileCSS", ng-repeat="item in apps")
