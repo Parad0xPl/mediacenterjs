@@ -91,7 +91,7 @@ movieApp.factory('Movie', function($http, mcjsMediaPlayer) {
                 , playerID              =   'player'
                 , homeURL               =   '/movies/'
                 , type                  =   'movies';
-                
+
             mcjsMediaPlayer.videoJSHandler(playerID, data, movie.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type);
         })
         .error(function () {
@@ -113,13 +113,33 @@ movieApp.factory('Movie', function($http, mcjsMediaPlayer) {
     return Movie;
 });
 
-movieApp.directive('mcjsMovie', function() {
+movieApp.directive('movieItem', function() {
+  function link(scope, el) {
+    var classes = [
+      'col-xs-12',
+      'col-sm-6',
+      'col-md-4',
+      'col-lg-3',
+      'col-xl-2',
+      'movieposter-container'
+    ];
+    var cl;
+    for(cl in classes){
+      if(!classes.hasOwnProperty(cl)){
+        continue;
+      }
+      if(!el.hasClass(classes[cl])){
+        el.toggleClass(classes[cl]);
+      }
+    }
+
+  }
 	return { restrict: 'E',
     scope: {
     	movie: '='
     },
     controller : function ($scope, $modal) {
-		$scope.open = function (movie) {
+		  $scope.open = function (movie) {
 	        $modal.open({
 	            templateUrl: 'editModal.html',
 	            controller: 'ModalInstanceCtrl',
@@ -131,9 +151,10 @@ movieApp.directive('mcjsMovie', function() {
 	                }
 	            }
 	        });
-	    }
+	    };
     },
-    templateUrl: 'views/movie'
+    templateUrl: 'movies/movie',
+    link: link
 }
 });
 

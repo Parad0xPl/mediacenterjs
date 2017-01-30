@@ -14,10 +14,23 @@ block additional_css
 
 block additional_scripts
     script(src="/core/js/plugins/angular/angular-ui/ui-bootstrap-tpls-0.11.0.js")
+    script(src="/core/js/plugins/jquery/jquery.slimscroll.min.js")
     script(src="/core/js/plugins/video.js")
     script(src="/movies/js/app.js")
     script(src="/core/js/video.js")
     script(src="/movies/js/remote.js")
+    script.
+        $(function(){
+            var isTouch = "ontouchstart" in document.documentElement;
+            if(!isTouch){
+                $('#slimScroll').slimScroll({
+                    height: '100%',
+                    width: '100%',
+                    color: '#5a5d63'
+                });
+            }
+        });
+
 
 block body
     header
@@ -30,9 +43,9 @@ block body
                     #view-select(ng-hide="!movies")
                         label.view-select(for="showhidden", ng-init="query.hidden='false'", ng-click="query.hidden = query.hidden == 'false' ? '' : 'false'")
                             | {{query.hidden ? "Show" : "Hide"}} Hidden
-    .container-fluid
+    .container-fluid#slimScroll
         .row(mcjs-library)
-            mcjs-movie(movie="movie", ng-repeat="movie in movies | filter:query  | orderBy: 'title' ", ng-cloak)
+            movie-item(movie="movie", ng-repeat="movie in movies | filter:query  | orderBy: 'title' ", ng-cloak)
 
         h2.loading(ng-show="!movies") #{lingua.loading}
             mcjs-progress(percent="serverMessage")
@@ -48,23 +61,23 @@ block body
             div(class="alert alert-danger" role="alert", ng-show="errorMessage") {{errorMessage}}
             .form-horizontal
                 .row
-                    .form-group
-                        img.col-md-offset-1(ng-src="{{current.posterPath}}", ng-show="current.posterPath !== original.posterPath")
-                    .form-group
-                        label.col-md-3.col-md-offset-1 Poster url path
-                        input.col-md-7(type="text",name="poster_path",ng-model="current.posterURL",required)
-                    .form-group
-                        label.col-md-3.col-md-offset-1 Backdrop url path
-                        input.col-md-7(type="text",name="backdrop_path",ng-model="current.backgroundURL",required)
-                    .form-group
-                        label.col-md-3.col-md-offset-1 Title
-                        input.col-md-7(type="text",name="title",ng-model="current.title",required)
-                    .form-group
-                        label.col-md-3.col-md-offset-1 Year
-                        input.col-md-7(type="text",name="year",ng-model="current.year",required)
-                    .form-group
-                        label.col-md-3.col-md-offset-1 Hidden
-                        input.col-md-7.icon(type="checkbox",name="hidden",ng-model="current.hidden",required,ng-checked="current.hidden == 'true'")
+
+                    img.col-md-offset-1(ng-src="{{current.posterPath}}", ng-show="current.posterPath !== original.posterPath")
+
+                    label.col-md-3.col-md-offset-1 Poster url path
+                    input.col-md-8(type="text",name="poster_path",ng-model="current.posterURL",required)
+
+                    label.col-md-3.col-md-offset-1 Backdrop url path
+                    input.col-md-8(type="text",name="backdrop_path",ng-model="current.backgroundURL",required)
+
+                    label.col-md-3.col-md-offset-1 Title
+                    input.col-md-8(type="text",name="title",ng-model="current.title",required)
+
+                    label.col-md-3.col-md-offset-1 Year
+                    input.col-md-8(type="text",name="year",ng-model="current.year",required)
+
+                    label.col-md-3.col-md-offset-1 Hidden
+                    input.col-md-8.icon(type="checkbox",name="hidden",ng-model="current.hidden",required,ng-checked="current.hidden == 'true'")
         .modal-footer
             button.btn(ng-click="updateItem()") Fetch Metadata
             button.btn.pull-right(ng-click="$dismiss()") Cancel
