@@ -24,7 +24,7 @@ block additional_scripts
             var isTouch = "ontouchstart" in document.documentElement;
             if(!isTouch){
                 $('#inner-playlist').slimScroll({
-                    height: '100%'
+                    height: 'calc(100% - 60px)'
                 });
                 $('#mainbody > .container-fluid').slimScroll({
                     height: '100%',
@@ -38,14 +38,15 @@ block body
     #newplaylist(ng-show="player.playlist.length > 0 && playlist.Visible", ng-cloak)
         h2 #{lingua.tvshows_playlist}
             i.left.double.angle.icon.pull-right(ng-click="playlist.Visible = false", style="float:right;margin:0;padding:0 5px;")
-        ul
-            li.currentshow(ng-repeat="tvshow in player.playlist", ng-mouseover="changeSelected(tvshow)", ng-class="{current: player.current.tvshow == $index}")
-                .header( ng-click="player.playlist.remove(tvshow); playlist.Visible = false; hideSelected();")
-                    span.tvshow-title {{tvshow.name}}
-                    i.remove.circle.icon
-                ol.episodes
-                    li.episode(ng-repeat="episode in tvshow.Episodes  | orderBy: ['season','episode']", ng-class="{current: player.current.episode == $index}", ng-click="playEpisode(episode); playlist.Visible = true") #{lingua.tvshows_season} {{episode.season }} - #{lingua.tvshows_episode} {{episode.episode }}
-                      span(style="float:right") {{episode.title}}
+        #inner-playlist
+            ul
+                li.currentshow(ng-repeat="tvshow in player.playlist", ng-mouseover="changeSelected(tvshow)", ng-class="{current: player.current.tvshow == $index}")
+                    .header( ng-click="player.playlist.remove(tvshow); playlist.Visible = false; hideSelected();")
+                        span.tvshow-title {{tvshow.name}}
+                        i.remove.circle.icon
+                    ol.episodes
+                        li.episode(ng-repeat="episode in tvshow.Episodes  | orderBy: ['season','episode']", ng-click="playEpisode(episode); playlist.Visible = true") #{lingua.tvshows_season} {{episode.season }} - #{lingua.tvshows_episode} {{episode.episode }}
+                          span(style="float:right") {{episode.title}}
 
     #mainbody
         header(ng-init="playlist.Visible = false")

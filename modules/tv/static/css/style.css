@@ -30,6 +30,10 @@ body{
   z-index: 1200;
 }
 
+#inner-playlist {
+  height:100% !important;
+}
+
 #newplaylist{
   background: #3d4045;
   width: 358px;
@@ -248,7 +252,7 @@ h2.loading{top:80px;}
 .episodes li:hover,
 .episodes li.focus,
 .episodes li.current{
-    background:#f1f1f1;
+    background:#f1f1f1 !important;
 }
 
 /** Playlist **/
