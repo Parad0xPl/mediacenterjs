@@ -1,5 +1,13 @@
-.slimScrollDiv > .container-fluid {
+#mainbody {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slimScrollDiv > .container-fluid, body > .container-fluid {
   height: calc(100% - 75px) !important;
+  width: 100%;
+  display: flex;
 }
 
 #tilesContainer tile{

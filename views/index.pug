@@ -30,26 +30,27 @@ block additional_css
     link(href="/index.css", rel="stylesheet")
 
 block body
-    header
-        .container-fluid
+    #mainbody
+        header
+            .container-fluid
+                .row
+                    .col-md-8.col-xs-12
+                        img.logo(src="/core/css/img/logo.png")
+                        h1 MediacenterJS
+                        -if(allowed === 'no')
+                            h4 Parental lock enabled
+                        div.upgrade-right.boxed(ng-show="newVersion && !updating")
+                            a.btn.upgrade(ng-click="doUpdate()") New version {{newVersion}} Available
+                    .col-md-4.hidden-xs
+                        #dateandtime
+                            date-time.time(format="H:mm:ss")
+                            date-time.date(format="dd-MM-yyyy")
+        .container-fluid#inner-slim(style="overflow:auto; height:100%;")
             .row
-                .col-md-8.col-xs-12
-                    img.logo(src="/core/css/img/logo.png")
-                    h1 MediacenterJS
-                    -if(allowed === 'no')
-                        h4 Parental lock enabled
-                    div.upgrade-right.boxed(ng-show="newVersion && !updating")
-                        a.btn.upgrade(ng-click="doUpdate()") New version {{newVersion}} Available
-                .col-md-4.hidden-xs
-                    #dateandtime
-                        date-time.time(format="H:mm:ss")
-                        date-time.date(format="dd-MM-yyyy")
-    .container-fluid(style="overflow: hidden")#inner-slim
-        .row
-            .col-md-12
-                .message(ng-show="updating") Downloading and installing update
-                    br
-                    Please wait for the installation to finish...
-                #tilesContainer.row(mcjs-library, style="margin:5px 5% 0 5%;", ng-hide="updating")
-                    tile(ng-repeat="item in apps | orderBy:'priority':true", item="item")
+                .col-md-12
+                    .message(ng-show="updating") Downloading and installing update
+                        br
+                        Please wait for the installation to finish...
+                    #tilesContainer.row(mcjs-library, style="margin:5px 5% 0 5%;", ng-hide="updating")
+                        tile(ng-repeat="item in apps | orderBy:'priority':true", item="item")
     //- link(rel='stylesheet', ng-href='{{item.tileCSS}}', ng-if="item.tileCSS", ng-repeat="item in apps")
