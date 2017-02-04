@@ -1,3 +1,10 @@
+> [!NOTE]
+> This fork is a bunch of fixes required to start the project. I've used this 
+> instead of Plex for half a year, and it was great. All fixes were more of a 
+> first-aid bandage than a proper solution, and I've disabled a few futures 
+> that were annoying me. Don't try to use it as a colossal technology debt is 
+> not worth it when Jellyfin is available
+
 ![logo](/public/core/css/img/logo.png) MediacenterJS <sup>Beta</sup>
 =============
 
