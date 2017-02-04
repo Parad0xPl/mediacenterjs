@@ -33,26 +33,27 @@ block additional_scripts
 
 
 block body
-    header
-        .container
-            .row
-                .col-md-12
-                    a.backlink(href="/") &#xe113;
-                    h1.hidden-xs #{lingua.movies}
-                    input#search.pull-right(ng-model="query.$", type="text", placeholder="Search", ng-show="movies")
-                    #view-select(ng-hide="!movies")
-                        label.view-select(for="showhidden", ng-init="query.hidden='false'", ng-click="query.hidden = query.hidden == 'false' ? '' : 'false'")
-                            | {{query.hidden ? "Show" : "Hide"}} Hidden
-    .container-fluid#slimScroll
-        .row(mcjs-library)
-            movie-item(movie="movie", ng-repeat="movie in movies | filter:query  | orderBy: 'title' ", ng-cloak)
+    #mainbody
+        header
+            .container
+                .row
+                    .col-md-12
+                        a.backlink(href="/") &#xe113;
+                        h1.hidden-xs #{lingua.movies}
+                        input#search.pull-right(ng-model="query.$", type="text", placeholder="Search", ng-show="movies")
+                        #view-select(ng-hide="!movies")
+                            label.view-select(for="showhidden", ng-init="query.hidden='false'", ng-click="query.hidden = query.hidden == 'false' ? '' : 'false'")
+                                | {{query.hidden ? "Show" : "Hide"}} Hidden
+        .container-fluid#slimScroll(style="overflow:auto; height:100%;")
+            .row(mcjs-library)
+                movie-item(movie="movie", ng-repeat="movie in movies | filter:query  | orderBy: 'title' ", ng-cloak)
 
-        h2.loading(ng-show="!movies") #{lingua.loading}
-            mcjs-progress(percent="serverMessage")
-            serverStatus
-        h2.loading(ng-show="movies.length === 0") No data found, please check the movie filepath
-    #videowrapper(ng-show="mediaPlayer.playing")
-      video#player.video-js.vjs-default-skin(width="100%", height="100%", controls, preload="metadata")
+            h2.loading(ng-show="!movies") #{lingua.loading}
+                mcjs-progress(percent="serverMessage")
+                serverStatus
+            h2.loading(ng-show="movies.length === 0") No data found, please check the movie filepath
+        #videowrapper(ng-show="mediaPlayer.playing")
+          video#player.video-js.vjs-default-skin(width="100%", height="100%", controls, preload="metadata")
 
     script(type="text/ng-template", id="editModal.html")
         .modal-header
