@@ -84,16 +84,16 @@ movieApp.factory('Movie', function($http, mcjsMediaPlayer) {
             var arr = url.split("/");
             var result = arr[0] + "//" + arr[2];
 
-            var fileName                =   data.fileName
-                , outputFile            =   fileName.replace(/ /g, "-")
-                , extentionlessFile     =   outputFile.replace(/\.[^\.]+$/, "")
-                , videoUrl              =   result + data.outputPath
-                , subtitleUrl           =   "/data/movies/"+extentionlessFile+".srt"
-                , playerID              =   'player'
-                , homeURL               =   '/movies/'
-                , type                  =   'movies';
+            var fileName                =   data.fileName,
+                outputFile            =   fileName.replace(/ /g, "-"),
+                extentionlessFile     =   outputFile.replace(/\.[^\.]+$/, ""),
+                videoUrl              =   result + data.outputPath,
+                subtitleUrl           =   "/data/movies/"+extentionlessFile+".srt",
+                playerID              =   'player',
+                homeURL               =   '/movies/',
+                type                  =   'movies';
 
-            mcjsMediaPlayer.videoJSHandler(playerID, data, movie.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type, $scope, function () {
+            mcjsMediaPlayer.videoJSHandler(playerID, data, movie.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type, function () {
               mcjsMediaPlayer.playing = false;
             });
         }, function () {
@@ -157,7 +157,7 @@ movieApp.directive('movieItem', function() {
     },
     templateUrl: 'movies/movie',
     link: link
-}
+};
 });
 
 movieApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, current) {

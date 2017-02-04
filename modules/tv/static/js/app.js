@@ -17,6 +17,42 @@
 */
 'use strict';
 
+function playEpisode(episode, $http, scope){
+    var platform = 'desktop';
+    if (navigator.userAgent.match(/Android/i)) {
+        platform = 'android';
+    } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+        platform = 'ios';
+    }
+
+
+    $http.get('/tv/'+episode.id+'/play/'+platform).then(function(response) {
+
+        //Get url+port
+        // var url = window.location.href;
+        // var arr = url.split("/");
+        // var result = arr[0] + "//" + arr[2];
+        var data = response.data;
+        var fileName                =  data.fileName,
+            outputFile            =   fileName.replace(/ /g, "-"),
+            extentionlessFile     =   outputFile.replace(/\.[^/.]+$/, ""),
+            videoUrl              =   data.outputPath,
+            subtitleUrl           =   "/data/tv/"+extentionlessFile+".srt",
+            playerID              =   'player',
+            homeURL               =   '/tv/',
+            type                  =   'tv';
+
+        videoJSHandler(playerID, data, episode.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type, scope);
+
+    }, function () {
+        sweetAlert({title : "",
+                    text : "The episode " +  episode.title + " could not be found",
+                    type : "error",
+                    allowOutsideClick : true});
+        scope.playing = false;
+    });
+}
+
 var tvApp = angular.module('tvApp', ['ui.bootstrap']);
 tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
     $scope.player = player;
@@ -31,18 +67,18 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
     $scope.playEpisode = function(episode){
         $scope.playing = true;
         playEpisode(episode, $http, $scope);
-    }
+    };
 
     $scope.changeSelected = function(tvshow){
         $scope.focused = $scope.tvshows.indexOf(tvshow);
-    }
+    };
 
     $scope.hideSelected = function(){
         $scope.focused = null;
-    }
+    };
 
     $scope.open = function (tvshow) {
-        var modalInstance = $modal.open({
+        var modalInstance = $modal.open({ // jshint ignore:line
             templateUrl: 'editModal.html',
             controller: ModalInstanceCtrl,
             size: 'md',
@@ -53,9 +89,9 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
                 }
             }
         });
-    }
+    };
 
-    var ModalInstanceCtrl = function ($scope, $modalInstance, current) {
+    var ModalInstanceCtrl = function ($scope, $modalInstance, current) { // jshint ignore:line
         $scope.edit ={};
         $scope.current = current;
 
@@ -63,7 +99,7 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
             $modalInstance.dismiss('cancel');
         };
 
-        $scope.editItem = function(){
+        $scope.editItem = function(){ // jshint ignore:line
 
             if($scope.edit.name === '' || $scope.edit.name === null || $scope.edit.name === undefined ){
                 if($scope.current.name  !== undefined || $scope.current.name !== null){
@@ -89,10 +125,10 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
                     posterURL       : $scope.edit.posterURL
                 },
                 url: "/tv/edit"
-            }).then(function(data, status, headers, config) {
+            }).then(function() {
                 location.reload();
             });
-        }
+        };
     };
 
     // var setupSocket = {
@@ -142,7 +178,7 @@ tvApp.controller('tvCtrl', function($scope, $http, $modal,player){
 });
 
 
-tvApp.factory('player', function( $rootScope) {
+tvApp.factory('player', function() {
         var player,
             playlist = [],
             current = {
@@ -154,17 +190,25 @@ tvApp.factory('player', function( $rootScope) {
             playlist: playlist,
             current: current,
             play: function(episode, tvshow) {
-                if (!playlist.length) return;
+                if (!playlist.length) {
+                  return;
+                }
 
-                if (angular.isDefined(episode)) current.episode = episode;
-                if (angular.isDefined(tvshow)) current.tvshow = tvshow;
+                if (angular.isDefined(episode)) {
+                  current.episode = episode;
+                }
+                if (angular.isDefined(tvshow)) {
+                  current.tvshow = tvshow;
+                }
             },
             reset: function() {
                 current.tvshow = 0;
                 current.episode = 0;
             },
             next: function() {
-                if (!playlist.length) return;
+                if (!playlist.length) {
+                  return;
+                }
                 if (playlist[current.tvshow].Episodes.length > (current.episode + 1)) {
                     current.episode++;
                 } else {
@@ -173,7 +217,9 @@ tvApp.factory('player', function( $rootScope) {
                 }
             },
             previous: function() {
-                if (!playlist.length) return;
+                if (!playlist.length) {
+                  return;
+                }
                 if (current.episode > 0) {
                     current.episode--;
                 } else {
@@ -187,52 +233,19 @@ tvApp.factory('player', function( $rootScope) {
             if (playlist.length > 0){
                 playlist.splice(0, playlist.length);
             }
-            if (playlist.indexOf(tvshow) != -1) return;
+            if (playlist.indexOf(tvshow) !== -1) {
+              return;
+            }
             playlist.push(tvshow);
         };
 
         playlist.remove = function(tvshow) {
             var index = playlist.indexOf(tvshow);
-            if (index == current.tvshow) player.reset();
+            if (index === current.tvshow) {
+              player.reset();
+            }
             playlist.splice(index, 1);
         };
 
         return player;
 });
-
-
-function playEpisode(episode, $http, scope){
-    var platform = 'desktop';
-    if (navigator.userAgent.match(/Android/i)) {
-        platform = 'android';
-    } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-        platform = 'ios';
-    }
-
-
-    $http.get('/tv/'+episode.id+'/play/'+platform).then(function(response) {
-
-        //Get url+port
-        var url = window.location.href
-        var arr = url.split("/");
-        var result = arr[0] + "//" + arr[2];
-        var data = response.data;
-        var fileName                =  data.fileName
-            , outputFile            =   fileName.replace(/ /g, "-")
-            , extentionlessFile     =   outputFile.replace(/\.[^/.]+$/, "")
-            , videoUrl              =   data.outputPath
-            , subtitleUrl           =   "/data/tv/"+extentionlessFile+".srt"
-            , playerID              =   'player'
-            , homeURL               =   '/tv/'
-            , type                  =   'tv';
-
-        videoJSHandler(playerID, data, episode.id, videoUrl, subtitleUrl, fileName, homeURL, 5000, type, scope);
-
-    }, function (msg, code) {
-        sweetAlert({title : "",
-                    text : "The episode " +  episode.title + " could not be found",
-                    type : "error",
-                    allowOutsideClick : true});
-        scope.playing = false;
-    });
-}

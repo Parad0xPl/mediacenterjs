@@ -1,8 +1,16 @@
-var moviedb = require('../../lib/utils/moviedb-wrapper')('1d0a02550b7d3eb40e4e8c47a3d8ffc6')
-, movie_title_cleaner = require('../../lib/utils/title-cleaner')
-, config = config = require('../../lib/handlers/configuration-handler').getConfiguration()
-, path = require('path')
-, logger = require('winston');
+var moviedb = require('../../lib/utils/moviedb-wrapper')('1d0a02550b7d3eb40e4e8c47a3d8ffc6'),
+  movie_title_cleaner = require('../../lib/utils/title-cleaner'),
+  config = require('../../lib/handlers/configuration-handler').getConfiguration(),
+  path = require('path'),
+  logger = require('winston'); // jshint ignore:line
+
+
+function buildImageUrl(width, path) {
+  if (!path) {
+    return;
+  }
+  return "http://image.tmdb.org/t/p/w" + width + path;
+}
 
 exports.valid_filetypes = /(avi|mkv|mpeg|mov|mp4|m4v|wmv)$/gi;
 
@@ -59,9 +67,4 @@ exports.processFile = function (fileObject, callback) {
                     callback();
                 });
         });
-}
-
-function buildImageUrl(width, path) {
-  if (!path) return;
-  return "http://image.tmdb.org/t/p/w" + width + path;
-}
+};

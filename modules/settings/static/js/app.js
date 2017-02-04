@@ -19,8 +19,8 @@
 
 var settingsApp = angular.module('settingsApp', ['ui.bootstrap']);
 
-settingsApp.controller('settingsCtrl', function ($scope, $http, $modal, $timeout, $window) {
-    $scope.isoLangs = isoLangs;
+settingsApp.controller('settingsCtrl', function ($scope, $http, $modal) {
+    $scope.isoLangs = isoLangs; // jshint ignore:line
     if(localStorage.getItem('oauth_token')) {
         $scope.oauthToken = localStorage.getItem('oauth_token');
         $scope.oauthKey = localStorage.getItem('oauth_key');
@@ -60,7 +60,7 @@ settingsApp.controller('settingsCtrl', function ($scope, $http, $modal, $timeout
             data:'{"'+device.deviceID+'":""}',
             url: locked ? '/lockClient' : '/unlockClient'
         })
-        .success(function (data, status, headers, config) {
+        .success(function (data) {
             if(data === 'done') {
                 setTimeout(function(){
                     location.reload();
@@ -86,14 +86,14 @@ settingsApp.controller('settingsCtrl', function ($scope, $http, $modal, $timeout
         $modal.open({
             templateUrl: "clearCacheModal.html",
             size: 'sm',
-        }).result.then(function(response) {
+        }).result.then(function() {
             $http.post('/clearCache', {cache : caches})
-            .success(function(data, status, headers, config) {
+            .success(function(data) {
                 if (data === 'done') {
                     $scope.message = "Successfully Executed";
                 }
             })
-            .error(function(data, status, headers, config) {
+            .error(function() {
                 $scope.message = "Error clearing cache";
             });
         });
@@ -102,37 +102,37 @@ settingsApp.controller('settingsCtrl', function ($scope, $http, $modal, $timeout
         $modal.open({
             templateUrl: "clearCacheModal.html",
             size: 'sm',
-        }).result.then(function(response) {
+        }).result.then(function() {
             $http.post('/getScraperData', {scraperlink : scraperLink})
-            .success(function(data, status, headers, config) {
+            .success(function(data) {
                 alert(data);
                 if (data === 'done') {
                     $scope.message = "Successfully Executed";
                 }
             })
-            .error(function(data, status, headers, config) {
+            .error(function() {
                 $scope.message = "Error getting data";
             });
         });
-    }
+    };
 });
 
 settingsApp.directive('setting', function(){
     return {
         restrict : 'E',
         transclude : true,
-        template: '<div class="form-group mcjs-rc-controllable"> \
-                        <label class="col-md-2"></label> \
-                        <div class="col-md-10 input-group"> \
-                            <span  class="input-group-addon"> \
-                                <i class="icon"></i> \
+        template: "<div class='form-group mcjs-rc-controllable'> \
+                        <label class='col-md-2'></label> \
+                        <div class='col-md-10 input-group'> \
+                            <span  class='input-group-addon'> \
+                                <i class='icon'></i> \
                             </span> \
-                            <input class="form-control mcjs-rc-clickable"></input> \
+                            <input class='form-control mcjs-rc-clickable'></input> \
                         </div> \
-                    </div>',
+                    </div>",
         compile: function(elem, attrs, transcludeFn) {
             elem.find("i.icon").addClass(attrs.icon);
-            return function (scope, element, attrs) {
+            return function (scope) {
                 transcludeFn(scope, function(clone) {
                     function replaceSub(sel, sel2) {
                         var tEl = elem.find(sel);
@@ -145,22 +145,22 @@ settingsApp.directive('setting', function(){
                     replaceSub("input, select");
                     //TODO: Add more elements like checkbox, radio button etc.
                 });
-            }
+            };
         }
-    }
+    };
 });
 
 
-settingsApp.directive('createControl', function($timeout){
+settingsApp.directive('createControl', function(){
     return function(scope, element, attrs){
         attrs.$observe('createControl',function(){
 
-            var elementData         = attrs.createControl.split(',')
-            , elementType           = elementData[0].toString()
-            , elementName           = elementData[1].toString()
-            , elementPlaceholder    = elementData[2].toString()
-            , elementModel          = ''
-            , configEntry           = scope.config[elementName];
+            var elementData         = attrs.createControl.split(','),
+              elementType           = elementData[0].toString(),
+              elementName           = elementData[1].toString(),
+              elementPlaceholder    = elementData[2].toString(),
+              elementModel          = '',
+              configEntry           = scope.config[elementName];
 
             if( configEntry !== null && configEntry !== undefined){
                 elementModel = configEntry;
@@ -169,5 +169,5 @@ settingsApp.directive('createControl', function($timeout){
             //TODO: Add more elements like checkbox, radio button, selectbox etc.
             element.html('<input class="form-control mcjs-rc-clickable" name="'+elementName+'" value="'+elementModel+'" type="'+elementType+'" placeholder="'+elementPlaceholder+'" id="'+elementName+'" />');
         });
-    }
+    };
 });

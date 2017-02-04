@@ -18,15 +18,15 @@
 
 (function($){
 
-    var ns = 'mcjsw'
-    ,methods = {}
+    var ns = 'mcjsw',
+        methods = {};
 
     function _init(options) {
 
         var opts = $.extend(true, {}, $.fn.mcjsw.defaults, options);
         return this.each(function() {
-            var $that = $(this)
-                ,o = $.extend(true, {}, opts, $that.data(opts.datasetKey));
+            var $that = $(this),
+                o = $.extend(true, {}, opts, $that.data(opts.datasetKey));
 
             // add data to the defaults (e.g. $node caches etc)
             o = $.extend(true, o, {
@@ -55,7 +55,7 @@
             // use extend(), so no o is used by value, not by reference
             $.data(this, ns, $.extend(true, {}, o));
 
-            _currentweather(o, $(this))
+            _currentweather(o, $(this));
 
         });
     }
@@ -63,7 +63,7 @@
     /**** Start of custom functions ***/
 
     // Get Current weather
-    function _currentweather(o, $that) {
+    function _currentweather(o) {// jshint ignore:line
         $.ajax({
             url: '/configuration/',
             type: 'get'
@@ -96,31 +96,31 @@
         });
     }
 
-  function _getCurrentCondition(o) {
+  function _getCurrentCondition(o) {// jshint ignore:line
         $.ajax({
             url : o.baseApiUrl + "geolookup/conditions/" + o.queryParameters,
             dataType : "jsonp",
             success : function(parsed_json) {
-                if (parsed_json['response']['error']) {
-                    var errorMessage = parsed_json['response']['error']['description'];
+                if (parsed_json.response.error) {
+                    var errorMessage = parsed_json.response.error.description;
                     o.body.find("h1").html(errorMessage);
                 } else {
-                    var location = parsed_json['location']['city'];
-                    var country = parsed_json['location']['country_iso3166'];
-                    var weathertype = parsed_json['current_observation']['weather'];
+                    var location = parsed_json.location.city;
+                    var country = parsed_json.location.country_iso3166;
+                    var weathertype = parsed_json.current_observation.weather;
 
                     o.tempIndicator = country.match(o.countries_with_fahrenheit) ? 'f' : 'c';
                     o.tempIndicatorSign = o.tempIndicator === 'f' ? '&#8457;' : '&#8451;';
 
-                    var feelslike = parsed_json['current_observation']['feelslike_' + o.tempIndicator];
-                    var temp = parsed_json['current_observation']['temp_' + o.tempIndicator];
+                    var feelslike = parsed_json.current_observation['feelslike_' + o.tempIndicator];
+                    var temp = parsed_json.current_observation['temp_' + o.tempIndicator];
 
                     o.body.find("h1").html(location + ", " + country);
                     o.body.find(".weathertype > .text").html(weathertype);
                     o.body.find(".degrees").html(temp + " <sup>" + o.tempIndicatorSign + "</sup>");
                     o.body.find(".feelslike").html(o.feelsLike + " " + feelslike + " <sup>" + o.tempIndicatorSign + "</sup>");
 
-                    var weathertypeset = parsed_json['current_observation']['icon'];
+                    var weathertypeset = parsed_json.current_observation.icon;
 
                     _setConditionIcon(o, o.body.find(".weathertype > .icon"), weathertypeset);
                     _setWeatherBackdrop(o, $(o.backdropImageSelector), weathertypeset);
@@ -132,13 +132,13 @@
         });
   }
 
-  function _getForecast(o, country) {
+  function _getForecast(o, country) {// jshint ignore:line
         $(o.forecastSelector).find("li").remove();
         $.ajax({
             url : o.baseApiUrl + "forecast/" + o.queryParameters,
             dataType : "jsonp",
             success : function(forecast_data) {
-                var forecastdays = forecast_data['forecast']['simpleforecast']['forecastday'];
+                var forecastdays = forecast_data.forecast.simpleforecast.forecastday;
                 $.each(forecastdays, function (index, day) {
                     var weekday = day.date.weekday;
                     var conditions = day.icon;
@@ -159,7 +159,7 @@
         });
   }
 
-  function _setConditionIcon(o, object, condition) {
+  function _setConditionIcon(o, object, condition) {// jshint ignore:line
     var position = 'left -135px top 0px';
     if (condition.match(o.partly_cloudy)){
         position = 'left -135px top 0px';
@@ -182,7 +182,7 @@
     $(object).css('background', 'url("/weather/img/climacons.png") no-repeat ' + position);
   }
 
-  function _setWeatherBackdrop(o, object, condition) {
+  function _setWeatherBackdrop(o, object, condition) {// jshint ignore:line
     var backdropFileName = "default.jpg";
 
     if (condition.match(o.cloudy)) {
@@ -213,15 +213,15 @@
             return _init.apply( this, arguments );
         } else {
             $.error( 'Method ' +  method + ' does not exist on jQuery.fn.mcjsw' );
-        };
+        }
     };
 
     /* default values for this plugin */
     $.fn.mcjsw.defaults = {
-        datasetKey: 'mcjsweather' //always lowercase
-        , backdropImageSelector: '.backdropimg'
-        , forecastSelector: '.forecast'
-    , baseApiUrl: 'http://api.wunderground.com/api/68a6ea8f6013979c/'
+        datasetKey: 'mcjsweather', //always lowercase
+        backdropImageSelector: '.backdropimg',
+        forecastSelector: '.forecast',
+        baseApiUrl: 'http://api.wunderground.com/api/68a6ea8f6013979c/'
 
     };
 

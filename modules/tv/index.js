@@ -93,7 +93,7 @@ routing.get['/data/*'] = function (req, res){
       "Content-Type": "video/mp4"
     });
 
-    var stream = fs.createReadStream(file, { start: start, end: end }).pipe(res);
+    // var stream = fs.createReadStream(file, { start: start, end: end }).pipe(res);
   });
 };
 

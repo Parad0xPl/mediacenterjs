@@ -62,7 +62,7 @@ routing.get['/stop/'] = function (req, res){
 };
 routing.get['/movie'] = function (req, res) {
   res.render("movie.pug");
-}
+};
 
 routing.post = {};
 routing.post['/progress/'] = function (req, res) {

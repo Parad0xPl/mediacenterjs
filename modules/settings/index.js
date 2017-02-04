@@ -102,7 +102,7 @@ routing.get['/'] = function (req, res) {
   DeviceInfo.storeDeviceInfo(req);
 
   Device.findAll()
-  .then(function (devices) {
+  .then(function () {
     DeviceInfo.isDeviceAllowed(req, function (allowed) {
       res.render('settings', {
         title: 'Settings',

@@ -21,36 +21,12 @@
  Licensed under the terms of MIT License.
 
  */
-
-
-var child_process = require('child_process')
-    , fs = require("fs-extra")
-    
-    , logger = require('winston');
-
-    var path = require('path');
-    var appDir = path.dirname(require.main.filename)
-
-    if(fs.existsSync(appDir + "/log/") === false){
-        fs.mkdirSync(appDir + "/log/");
-        fs.openSync(appDir + "/log/server.log", 'w');
-        fs.chmodSync(appDir + "/log/server.log", 0755);
-    }
-
-    logger.remove(logger.transports.Console);
-    logger.add(logger.transports.File, { filename:appDir + "/log/server.log" });
-    logger.add(logger.transports.Console, { level: 'debug', colorize:true });
-
-function installUpdate(output, dir){
-    logger.info('Installing update...');
-    fs.copy('./install/mediacenterjs-master', './', function (err) {
-        if (err) {
-            logger.error('Error', err);
-        } else {
-            cleanUp(output, dir);
-        }
-    });
-}
+var server,
+    logger = require('winston'),
+    path = require('path'),
+    appDir = path.dirname(require.main.filename),
+    child_process = require('child_process'),
+    fs = require("fs-extra");
 
 function cleanUp(output, dir) {
     logger.info('Cleanup...');
@@ -62,8 +38,8 @@ function cleanUp(output, dir) {
     });
 
     logger.info('Install dependencies...');
-    var exec = require('child_process').exec
-        , child = exec('npm install', { maxBuffer: 9000*1024 }, function(err, stdout, stderror) {
+    var exec = require('child_process').exec,
+        child = exec('npm install', { maxBuffer: 9000*1024 }, function(err) {
             if (err) {
                 logger.error('Metadata fetcher error: ',err) ;
             }
@@ -85,68 +61,90 @@ function cleanUp(output, dir) {
     });
 }
 
-server = {
-    process: null,
-    files: [],
-    restarting: false,
-    update:false,
 
-    "restart": function() {
-        this.restarting = true;
-        logger.info('Stopping server for restart');
-        this.process.kill();
-    },
-    "start": function() {
-        var that = this;
-        if(that.update === true){
-            var output = './master.zip';
-            var dir = './install';
-            that.update === false;
-            setTimeout(function(){
-                installUpdate(output, dir);
-            },2000);
+function installUpdate(output, dir){
+    logger.info('Installing update...');
+    fs.copy('./install/mediacenterjs-master', './', function (err) {
+        if (err) {
+            logger.error('Error', err);
         } else {
-            logger.info('Starting server');
-            that.watchFile();
-
-            this.process = child_process.spawn(process.argv[0], ['index.js']);
-
-            this.process.stdout.addListener('data', function (data) {
-                process.stdout.write(data);
-            });
-
-            this.process.stderr.addListener('data', function (data) {
-                console.log(data.toString());
-            });
-
-            this.process.addListener('exit', function (code) {
-                this.process = null;
-                if (that.restarting) {
-                    that.restarting === true;
-                    that.start();
-                }
-            });
+            cleanUp(output, dir);
         }
-    },
-    "watchFile": function() {
-        // var that = this;
-        // fs.watchFile('./configuration/config.ini', {interval : 500}, function(curr, prev) {
-        //     if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
-        //         logger.info('Restarting because of changed file');
-        //         // give browser time to load finish page
-        //         setTimeout(function(){
-        //             server.restart();
-        //         },2000);
-        //     }
-        // });
-        // fs.watchFile('./configuration/update.js', {interval : 500}, function(curr, prev) {
-        //     if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
-        //         logger.info('Restarting because an update is available' );
-        //         that.update = true;
-        //         server.restart();
-        //     }
-        // });
-    }
+    });
 }
+
+server = {
+   process: null,
+   files: [],
+   restarting: false,
+   update:false,
+
+   "restart": function() {
+       this.restarting = true;
+       logger.info('Stopping server for restart');
+       this.process.kill();
+   },
+   "start": function() {
+       var that = this;
+       if(that.update === true){
+           var output = './master.zip';
+           var dir = './install';
+           that.update = false;
+           setTimeout(function(){
+               installUpdate(output, dir);
+           },2000);
+       } else {
+           logger.info('Starting server');
+           that.watchFile();
+
+           this.process = child_process.spawn(process.argv[0], ['index.js']);
+
+           this.process.stdout.addListener('data', function (data) {
+               process.stdout.write(data);
+           });
+
+           this.process.stderr.addListener('data', function (data) {
+               console.log(data.toString());
+           });
+
+           this.process.addListener('exit', function () {
+               this.process = null;
+               if (that.restarting) {
+                   that.restarting = true;
+                   that.start();
+               }
+           });
+       }
+   },
+   "watchFile": function() {
+       // var that = this;
+       // fs.watchFile('./configuration/config.ini', {interval : 500}, function(curr, prev) {
+       //     if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
+       //         logger.info('Restarting because of changed file');
+       //         // give browser time to load finish page
+       //         setTimeout(function(){
+       //             server.restart();
+       //         },2000);
+       //     }
+       // });
+       // fs.watchFile('./configuration/update.js', {interval : 500}, function(curr, prev) {
+       //     if (curr.mtime.valueOf() != prev.mtime.valueOf() || curr.ctime.valueOf() != prev.ctime.valueOf()) {
+       //         logger.info('Restarting because an update is available' );
+       //         that.update = true;
+       //         server.restart();
+       //     }
+       // });
+   }
+};
+
+if(fs.existsSync(appDir + "/log/") === false){
+    fs.mkdirSync(appDir + "/log/");
+    fs.openSync(appDir + "/log/server.log", 'w');
+    fs.chmodSync(appDir + "/log/server.log", 755);
+}
+
+logger.remove(logger.transports.Console);
+logger.add(logger.transports.File, { filename:appDir + "/log/server.log" });
+logger.add(logger.transports.Console, { level: 'debug', colorize:true });
 
 server.start();

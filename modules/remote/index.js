@@ -15,8 +15,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-var express = require('express'),
-    app = express(),
+var //express = require('express'),
+    // app = express(),
     fs = require('fs-extra'),
     ini = require('ini'),
     // os = require('os'),

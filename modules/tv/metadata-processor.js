@@ -1,17 +1,17 @@
-var moviedb = require('../../lib/utils/moviedb-wrapper')('7983694ec277523c31ff1212e35e5fa3')
-, episoder = require('../../lib/utils/episoder')
-, tv_title_cleaner = require('../../lib/utils/title-cleaner')
-, path = require('path')
-, logger = require('winston')
-, Promise = require("bluebird");
+var moviedb = require('../../lib/utils/moviedb-wrapper')('7983694ec277523c31ff1212e35e5fa3'),
+    episoder = require('../../lib/utils/episoder'),
+    // tv_title_cleaner = require('../../lib/utils/title-cleaner'),
+    path = require('path'),
+    // logger = require('winston'),
+    Promise = require("bluebird");
 
 var writeSerialise = Promise.resolve();
 
 exports.valid_filetypes = /(avi|mkv|mpeg|mov|mp4|m4v|wmv)$/gi;
 
 exports.processFile = function (fileObject, callback) {
-    var originalTitle           = path.basename(fileObject.file)
-    , episodeInfo               = tv_title_cleaner.cleanupTitle(originalTitle)
+    var originalTitle           = path.basename(fileObject.file);
+        // episodeInfo               = tv_title_cleaner.cleanupTitle(originalTitle);
     // , episodeReturnedTitle      = episodeInfo.title
     // , episodeStripped           = episodeReturnedTitle.replace(this.valid_filetypes, '')
     // , episodeTitle              = episodeStripped.trimRight();
@@ -20,7 +20,9 @@ exports.processFile = function (fileObject, callback) {
     // Show name could be found
     var episodeDetails = episoder.parseFilename(originalTitle);
     console.log(episodeDetails);
-    if (!episodeDetails) return callback();
+    if (!episodeDetails) {
+      return callback();
+    }
 
     var trimmedTitle = episodeDetails.show;
     if (trimmedTitle !== undefined) {
@@ -38,7 +40,7 @@ exports.processFile = function (fileObject, callback) {
             episode: episodeDetails.episode || 0,
             title: episodeDetails.title || ""
         }})
-        .spread(function(episode, created) {
+        .spread(function(episode) {
             moviedb.searchTv({query: trimmedTitle})
                 .catch(function (err) {
                     console.log('Error retrieving data for ' + trimmedTitle, err);
@@ -67,7 +69,7 @@ exports.processFile = function (fileObject, callback) {
 
                     writeSerialise = writeSerialise.then(function () {
                         return Show.findOrCreate({where: { name: showData.name }, defaults: showData})
-                            .spread(function (show, created) {
+                            .spread(function (show) {
                                 return show.addEpisode(episode);
                             })
                             .then(function () {
@@ -77,4 +79,4 @@ exports.processFile = function (fileObject, callback) {
                 });
         });
     });
-}
+};

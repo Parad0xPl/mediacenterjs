@@ -21,6 +21,57 @@
 
     var musicApp = angular.module('musicApp', ['ui.bootstrap', 'mcjsCore']);
 
+    function copyOmit(obj, omitkeys) {
+            var copy = angular.copy(obj);
+            for (var i in omitkeys) {
+                if(!omitkeys.hasOwnProperty(i)){
+                  continue;
+                }
+                delete copy[omitkeys[i]];
+            }
+            return copy;
+    }
+
+    function updateProgress(audio) {
+       var progress = document.getElementById("progress");
+       var value = 0;
+       if (audio.currentTime > 0) {
+          value = Math.floor((100 / audio.duration) * audio.currentTime);
+       }
+       progress.style.width = value + "%";
+    }
+
+
+    function randomTrack(player, playlist,current){
+        var currentItem = playlist[current.itemIdx];
+        if(player.random === true){
+            var currentAlbumTracks  = currentItem.Tracks.length;
+            var randomIndex = Math.floor(Math.random() * currentAlbumTracks);
+            current.subItemIdx = randomIndex;
+            if (player.playing){
+                player.play();
+            }
+        }
+    }
+
+    var ModalInstanceCtrl = function ($scope, $modalInstance, current) {
+        $scope.original = current;
+        $scope.current = angular.copy(current);
+
+        $scope.editItem = function(){
+            $http({
+                method: "post",
+                data: copyOmit($scope.current, ['artist', 'tracks']),
+                url: "/music/edit"
+            }).then(function() {
+                angular.copy($scope.current, $scope.original);
+                $modalInstance.dismiss();
+            }).error(function() {
+                $scope.errorMessage = "Unable to save changes. Check server is running and try again.";
+            });
+        };
+    };
+
     function createDropDirective(ngevent, jsevent) {
         musicApp.directive(ngevent, function ($parse) {
             return function ($scope, element, attrs) {
@@ -58,7 +109,8 @@
             if (width >= 1200) {
                 targetWidth = 270;
             }
-            var itemsCanFit = width/targetWidth>>0;//Math.floor but quicker
+            var itemsCanFit = width/targetWidth >> 0; // jshint ignore:line
+            //Math.floor but quicker 
             var itemWidth = 100/(itemsCanFit + 1);
             return itemWidth + "%";
 
@@ -106,7 +158,7 @@
         };
 
         $scope.open = function (album) {
-            var modalInstance = $modal.open({
+            $modal.open({
                 templateUrl: 'editModal.html',
                 controller: ModalInstanceCtrl,
                 size: 'md',
@@ -119,78 +171,46 @@
             });
         };
 
-        function copyOmit(obj, omitkeys) {
-            var copy = angular.copy(obj);
-            for (var i in omitkeys) {
-                if(omitkeys.hasOwnProperty(i)){
-                    delete copy[omitkeys[i]];
-                }
-            }
-            return copy;
-        }
-
-        var ModalInstanceCtrl = function ($scope, $modalInstance, current) {
-            $scope.original = current;
-            $scope.current = angular.copy(current);
-
-            $scope.editItem = function(){
-                $http({
-                    method: "post",
-                    data: copyOmit($scope.current, ['artist', 'tracks']),
-                    url: "/music/edit"
-                }).then(function() {
-                    angular.copy($scope.current, $scope.original);
-                    $modalInstance.dismiss();
-                }).error(function() {
-                    $scope.errorMessage = "Unable to save changes. Check server is running and try again.";
-                });
-            };
-        };
-
-
-
-        var setupSocket = {
-            async: function() {
-                var promise = $http.get('/configuration/').then(function (response) {
-                    var configData  = response.data;
-                    var socket      = io.connect();
-                    socket.on('connect', function(data){
-                        socket.emit('screen');
-                    });
-                    return {
-                        on: function (eventName, callback) {
-                            socket.on(eventName, function () {
-                                var args = arguments;
-                                $scope.$apply(function () {
-                                    callback.apply(socket, args);
-                                });
-                            });
-
-                        },
-                        emit: function (eventName, data, callback) {
-                            socket.emit(eventName, data, function () {
-                                var args = arguments;
-                                $scope.$apply(function () {
-                                    if (callback) {
-                                        callback.apply(socket, args);
-                                    }
-                                });
-                            });
-                        }
-                    };
-                    return response.data;
-                });
-                return promise;
-            }
-        };
+        // var setupSocket = {
+        //     async: function() {
+        //         var promise = $http.get('/configuration/').then(function () {
+        //             var socket      = io.connect();
+        //             socket.on('connect', function(){
+        //                 socket.emit('screen');
+        //             });
+        //             return {
+        //                 on: function (eventName, callback) {
+        //                     socket.on(eventName, function () {
+        //                         var args = arguments;
+        //                         $scope.$apply(function () {
+        //                             callback.apply(socket, args);
+        //                         });
+        //                     });
+        //
+        //                 },
+        //                 emit: function (eventName, data, callback) {
+        //                     socket.emit(eventName, data, function () {
+        //                         var args = arguments;
+        //                         $scope.$apply(function () {
+        //                             if (callback) {
+        //                                 callback.apply(socket, args);
+        //                             }
+        //                         });
+        //                     });
+        //                 }
+        //             };
+        //         });
+        //         return promise;
+        //     }
+        // };
 
 
-        setupSocket.async().then(function(data) {
-            if (typeof data.on !== "undefined") {
-                //$scope.remote       = remote(data, $scope, player, audio);
-                //$scope.keyevents    = keyevents(data, $scope, player, audio);
-            }
-        });
+        // setupSocket.async().then(function(data) {
+        //     if (typeof data.on !== "undefined") {
+        //         $scope.remote       = remote(data, $scope, player, audio);
+        //         $scope.keyevents    = keyevents(data, $scope, player, audio);
+        //     }
+        // });
 
         $scope.orderProp = 'genre';
     };
@@ -206,8 +226,8 @@
         var player,
             playlist = [],
             paused = false,
-            single = false,
-            random = false,
+            // single = false,
+            // random = false,
             currentTrack = null,
             currentAlbum = null,
             current = {
@@ -264,7 +284,7 @@
                 }
                 randomTrack(player, playlist,current);
             },
-            seek: function($event) {
+            seek: function() {
                 // var clientX = $event.clientX
                 //    , left = clientX - $($event.target).parent().offset().left
                 //    , perc = (left / $($event.target).parent().width())
@@ -272,7 +292,7 @@
 
                 //    audio.currentTime = parseInt(time);
             },
-            next: function() {
+            next: function() {// jshint ignore:line
                 if (!playlist.length){
                     return;
                 }
@@ -309,7 +329,7 @@
                 if(player.random === true){
                     randomTrack(player, playlist,current);
                 } else {
-                    var currentItem = playlist[current.itemIdx];
+                    // var currentItem = playlist[current.itemIdx];
                     if (current.subItemIdx > 0) {
                         current.subItemIdx--;
                     } else {
@@ -359,26 +379,5 @@
 
         return player;
     });
-
-    function updateProgress(audio) {
-       var progress = document.getElementById("progress");
-       var value = 0;
-       if (audio.currentTime > 0) {
-          value = Math.floor((100 / audio.duration) * audio.currentTime);
-       }
-       progress.style.width = value + "%";
-    }
-
-    function randomTrack(player, playlist,current){
-        var currentItem = playlist[current.itemIdx];
-        if(player.random === true){
-            var currentAlbumTracks  = currentItem.Tracks.length;
-            var randomIndex = Math.floor(Math.random() * currentAlbumTracks);
-            current.subItemIdx = randomIndex;
-            if (player.playing){
-                player.play();
-            }
-        }
-    }
 
 })(window);

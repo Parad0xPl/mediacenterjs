@@ -1,27 +1,27 @@
-var LastfmAPI = require('lastfmapi')
-, mm = require('musicmetadata')
-, fs = require('fs-extra')
-, logger = require('winston');
+var LastfmAPI = require('lastfmapi'),
+    mm = require('musicmetadata'),
+    fs = require('fs-extra'),
+    logger = require('winston');
 
 exports.valid_filetypes = /(m4a|mp3)$/gi;
 
 exports.processFile = function (fileObject, callback) {
-    var parser = new mm(fs.createReadStream(fileObject.href));
+    var parser = new mm(fs.createReadStream(fileObject.href)); // jshint ignore:line
     var result = null;
 
     parser.on('metadata', function(metadata) {
         result = metadata;
     });
-    parser.on('done', function(err) {
+    parser.on('done', function(err) { // jshint ignore:line
         if (err) {
             logger.error('Music parse error', { error: err });
         } else {
-            var trackName = 'Unknown Title'
-            ,   trackNo = ''
-            ,   albumName = 'Unknown Album'
-            ,   genre = 'Unknown'
-            ,   artistName = 'Unknown Artist'
-            ,   year = '';
+            var trackName = 'Unknown Title',
+                trackNo = '',
+                albumName = 'Unknown Album',
+                genre = 'Unknown',
+                artistName = 'Unknown Artist',
+                year = '';
 
             if (result) {
                 trackName = (result.title)        ? result.title.replace(/\\/g, '') : trackName;
@@ -68,18 +68,18 @@ exports.processFile = function (fileObject, callback) {
                 };
 
                 Artist.findOrCreate({where: artistData, defaults: artistData})
-                .spread(function (artist, created) {
+                .spread(function (artist) {
                     albumData.ArtistId = artist.id;
                     return Album.findOrCreate({where: { title: albumData.title }, defaults: albumData});
                 })
-                .spread(function (album, created) {
+                .spread(function (album) {
                     trackData.AlbumId = album.id;
                     return Track.findOrCreate({where: { title: trackData.title }, defaults: trackData});
                 })
-                .spread(function (track, created) {
+                .spread(function () {
                     callback();
                 });
             });
         }
     });
-}
+};
